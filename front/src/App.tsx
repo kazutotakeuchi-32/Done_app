@@ -1,21 +1,57 @@
 import React from 'react'
-import logo from './logo.svg'
-import "./assets/App.css"
+import { Header } from './components/Header/Header'
+import { connect } from 'react-redux';
+import { Footer } from './components/Footer/Footer';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,} from "react-router-dom";
+import { Home } from './templates/Home';
+import { About } from './templates/About';
+const App=(props):JSX.Element=>{
 
-function App() :JSX.Element{
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header/>
+        <main>
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <Home/>
+              </Route>
+              <Route exact path="/about">
+                <About/>
+              </Route>
+            </Switch>
+          </Router>
+        </main>
+      <Footer/>
+    </>
+
   )
 }
 
-export default App
+
+const mapStateToProps = state => {
+  return { users: state.users }
+}
+const mapDispatchToProp=dispatch=>{
+  return{
+  }
+}
+const mergeProps = (mapStatToProps) => {
+  // console.log(mapStateToProps);
+  return {
+    mapStatToProps:{
+      ...mapStatToProps,
+      users:{
+        ...mapStatToProps.users,
+        id:1
+      }
+    }
+
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProp,mergeProps)(App)

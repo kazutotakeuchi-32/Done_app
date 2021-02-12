@@ -1,1 +1,3 @@
-export const Header =()=><div className=""></div>
+import React from "react";
+
+export const Header =():JSX.Element=><div className=""></div>

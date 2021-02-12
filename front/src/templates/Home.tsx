@@ -1,1 +1,2 @@
-export const Home = ()=><div className=""></div>
+import React from "react";
+export const Home = ()=><div className="">Home</div>
