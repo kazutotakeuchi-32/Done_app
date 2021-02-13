@@ -8,6 +8,8 @@ import {
   Route,} from "react-router-dom";
 import { Home } from './templates/Home';
 import { About } from './templates/About';
+import { Login } from './templates/Login';
+import { Signup } from './templates/Signup';
 const App=(props):JSX.Element=>{
 
   return (
@@ -18,6 +20,12 @@ const App=(props):JSX.Element=>{
             <Switch>
               <Route exact path="/">
                 <Home/>
+              </Route>
+              <Route exact path="/signup">
+                <Signup/>
+              </Route>
+              <Route exact path="/login">
+                <Login/>
               </Route>
               <Route exact path="/about">
                 <About/>
