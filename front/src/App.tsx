@@ -10,6 +10,7 @@ import { Home } from './templates/Home';
 import { About } from './templates/About';
 import { Login } from './templates/Login';
 import { Signup } from './templates/Signup';
+import { Mypage } from './templates/Mypage';
 const App=(props):JSX.Element=>{
 
   return (
@@ -27,8 +28,8 @@ const App=(props):JSX.Element=>{
               <Route exact path="/login">
                 <Login/>
               </Route>
-              <Route exact path="/about">
-                <About/>
+              <Route  path="/users/:id">
+                <Mypage/>
               </Route>
             </Switch>
           </Router>
