@@ -110,7 +110,7 @@ export const Header =():JSX.Element=>{
   const classes = useStyles();
   const [isOpen,setIsOpen]=useState(false)
   let logged = false
-   logged = true
+   logged = false
   const isAccountImage = true
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)

@@ -11,26 +11,30 @@ import { About } from './templates/About';
 import { Login } from './templates/Login';
 import { Signup } from './templates/Signup';
 import { Mypage } from './templates/Mypage';
+import { PrivateRoute } from './components/PrivateRoute';
 const App=(props):JSX.Element=>{
-
   return (
     <>
       <Header/>
         <main>
           <Router>
             <Switch>
-              <Route exact path="/">
+              <PrivateRoute exact path="/" component={Home}/>
+          {/* <PrivateRoute exact path="/profile/:userId" component={ProfilePage}/>  */}
+              {/* <Route exact path="/">
                 <Home/>
-              </Route>
+              </Route> */}
               <Route exact path="/signup">
+
                 <Signup/>
               </Route>
               <Route exact path="/login">
                 <Login/>
               </Route>
-              <Route  path="/users/:id">
+              <PrivateRoute exact path="/users/:id" component={Mypage} />
+              {/* <Route  path="/users/:id">
                 <Mypage/>
-              </Route>
+              </Route> */}
             </Switch>
           </Router>
         </main>
