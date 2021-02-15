@@ -1,11 +1,12 @@
-import React from "react"
-import {  Router, Redirect} from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import {  Route, Redirect} from "react-router-dom";
+import { useDispatch,useSelector  } from "react-redux";
 export const PrivateRoute = ({...props})=>{
-  const authUser = false
-  const isAuthenticated =  null
-  if (isAuthenticated) {
+  const userSelector = (state) =>state.users.token
+  const authUser = useSelector(userSelector)
+  if (authUser) {
     return(
-      <Router {...props}/>
+      <Route  {...props}/>
     )
   }else{
     return(

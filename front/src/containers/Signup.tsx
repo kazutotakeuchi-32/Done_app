@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useDispatch,useSelector  } from "react-redux";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -6,15 +7,14 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Link } from "@material-ui/core";
-import { GridOn } from "@material-ui/icons";
+import { Email, GridOn } from "@material-ui/icons";
+import { signUp } from "../reducks/users/operations";
 
 const SignupSchema = yup.object().shape({
-  firstName: yup.string().required("This field is required."),
-  lastName: yup.string().required("This field is required."),
+  name: yup.string().required("This field is required."),
   email: yup
     .string()
     .email()
@@ -58,9 +58,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Signup = () => {
+export const Signup = (props) => {
+  // let token;
+  const userSelector = (state) =>state.users.token
   const classes = useStyles();
-
+  const dispatch = useDispatch()
+  const handleSubmid = ({name,email,password,confrimationPassword})=>{
+    dispatch(signUp(name,email,password,confrimationPassword))
+ }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -70,21 +75,20 @@ export const Signup = () => {
         </Typography>
         <Formik
           initialValues={{
-            firstName: "",
+            name:"",
             email: "",
-            password: ""
+            password: "",
+            confrimationPassword:""
           }}
           validationSchema={SignupSchema}
-          onSubmit={values => {
-            console.log(values);
-          }}
+          onSubmit={handleSubmid}
         >
           {({ errors, handleChange, touched }) => (
-            <Form className={classes.form}>
+            <Form className={classes.form} >
               <Grid container spacing={2} >
                 <Grid item xs={12} >
                   <TextField
-                    autoComplete="fname"
+                    autoComplete="name"
                     name="name"
                     variant="outlined"
                     fullWidth
@@ -93,8 +97,8 @@ export const Signup = () => {
                     label="Name"
                     autoFocus
                     helperText={
-                      errors.firstName && touched.firstName
-                        ? errors.firstName
+                      errors.name && touched.name
+                        ? errors.name
                         : null
                     }
                   />
@@ -136,7 +140,7 @@ export const Signup = () => {
                     variant="outlined"
                     fullWidth
                     onChange={handleChange}
-                    name="confirmation_password"
+                    name="confrimationPassword"
                     label="Confirmation password"
                     type="password"
                     id="confirmationPassword"

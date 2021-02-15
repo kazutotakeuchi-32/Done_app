@@ -1,9 +1,15 @@
 import { initialState } from "../store/initialState"
-
-export const UsersReducer=(state=initialState.users,action)=>{
+import * as Actions from "./actions";
+export const UsersReducer=(state=initialState.user,action)=>{
   switch (action.type) {
-    case "":
-      break;
+    case Actions.SIGN_UP:
+      return {
+       ...action.Payload.users
+      }
+    case Actions.INTIAL_USER:
+      console.log("aa");
+
+      return state
     default:
       return state
   }

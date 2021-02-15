@@ -1,9 +1,12 @@
 export const initialState ={
-  users:{
+  user:{
     id: null,
     name:"",
     email:"",
     avatar:"",
-    admin:null
+    admin:false,
+    client:null,
+    token:null,
+    uid:""
   }
 }

@@ -3,7 +3,7 @@ import {render} from 'react-dom'
 import  {Provider} from "react-redux";
 import { Router,Route,browserHistory} from 'react-router-dom'
 import './assets/index.css'
-import App from './App'
+import {App} from './App'
 import reportWebVitals from './reportWebVitals'
 import { createBrowserHistory } from "history";
 import { ConnectedRouter} from "connected-react-router";
