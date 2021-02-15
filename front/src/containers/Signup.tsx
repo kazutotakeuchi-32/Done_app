@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
 
 export const Signup = (props) => {
   // let token;
-  const userSelector = (state) =>state.users.token
+
   const classes = useStyles();
   const dispatch = useDispatch()
   const handleSubmid = ({name,email,password,confrimationPassword})=>{

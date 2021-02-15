@@ -21,6 +21,16 @@ export const signInAction = (users)=>{
   )
 }
 
+export const SIGN_OUT = "SIGN_OUT"
+export const signOutAction = (users)=>{
+  return({
+    type: "SIGN_OUT",
+    Payload:{
+      users
+    }
+  })
+}
+
 export const INTIAL_USER ="INTIAL_USER"
 
 export const initialUserAction=()=>{

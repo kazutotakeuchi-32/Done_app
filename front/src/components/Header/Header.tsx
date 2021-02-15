@@ -16,7 +16,8 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useSelector  } from "react-redux";
+import { useSelector ,useDispatch } from "react-redux";
+import { signOut } from "../../reducks/users/operations";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -105,12 +106,19 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Header =():JSX.Element=>{
   const classes = useStyles();
   const [isOpen,setIsOpen]=useState(false)
-  const userSelector = (state) =>state.users.token
-  const authUser = useSelector(userSelector)
+  const userSelector = (state) =>state.users
+  const user = useSelector(userSelector)
+  const authUser  = user.token
+
   const isAccountImage = true
+  const  dispatch= useDispatch()
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)
   }
+  const handleClick=()=>{
+    dispatch(signOut(user))
+  }
+
   return(
     <div className="">
       <div className={classes.root}>
@@ -132,11 +140,21 @@ export const Header =():JSX.Element=>{
           >
               <List className={classes.list}>
                 { authUser ?
-                    ['Home', 'Mypage', 'Output', 'Setting',"Information","Logout"].map((text, index) => (
-                      <ListItem button key={text}>
-                        <ListItemText primary={text} />
-                      </ListItem>
-                      ))
+                    ['Home', 'Mypage', 'Output', 'Setting',"Information","Logout"].map((text, index) =>{
+                          if (text == "Logout") {
+                            return(
+                              <ListItem button key={text} onClick={()=>handleClick()}>
+                                 <ListItemText primary={text} />
+                              </ListItem>
+                            )
+                          }
+                          return(
+                          <ListItem button key={text}>
+                            <ListItemText primary={text} />
+                          </ListItem>
+                          )
+                        }
+                      )
                   :
                     ['Signup', 'Login'].map((text, index) => (
                       <ListItem button key={text}>
@@ -167,7 +185,7 @@ export const Header =():JSX.Element=>{
                   <Avatar className={classes.small} alt="Remy Sharp"  src={Img} />
                 </IconButton>
               :
-                <IconButton >
+                <IconButton  >
                   <AccountCircle/>
                 </IconButton>
               }
