@@ -1,4 +1,5 @@
 import React from "react"
+import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -9,10 +10,10 @@ import Container from "@material-ui/core/Container";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Link } from "@material-ui/core";
+import { signIn } from "../reducks/users/operations";
+
 
 const SignupSchema = yup.object().shape({
-  firstName: yup.string().required("This field is required."),
-  lastName: yup.string().required("This field is required."),
   email: yup
     .string()
     .email()
@@ -59,7 +60,10 @@ const useStyles = makeStyles(theme => ({
 
 export const Login = () => {
   const classes = useStyles();
-
+  const dispatch = useDispatch()
+  const handleSubmit =(value)=>{
+    dispatch(signIn(value.email,value.password))
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -69,14 +73,11 @@ export const Login = () => {
         </Typography>
         <Formik
           initialValues={{
-            firstName: "",
             email: "",
             password: ""
           }}
           validationSchema={SignupSchema}
-          onSubmit={values => {
-            console.log(values);
-          }}
+          onSubmit={handleSubmit}
         >
           {({ errors, handleChange, touched }) => (
             <Form className={classes.form}>

@@ -9,6 +9,18 @@ export const signUpAction=(users)=>{
    }
   )
 }
+export const SIGN_IN = "SIGN_IN"
+export const signInAction = (users)=>{
+  return(
+    {
+      type:"SIGN_IN",
+      Payload:{
+        users
+      }
+    }
+  )
+}
+
 export const INTIAL_USER ="INTIAL_USER"
 
 export const initialUserAction=()=>{
