@@ -1,7 +1,6 @@
-import { DateRange } from "@material-ui/icons";
 import axios from "axios";
-import {push,replace} from "connected-react-router";
-import { signUpAction,initialUserAction } from "../users/actions";
+import {push} from "connected-react-router";
+import { signUpAction } from "../users/actions";
 
 export const signUp=(userName,email,password,confirmPassword)=>{
  return async (dispatch)=>{
@@ -33,9 +32,6 @@ export const signUp=(userName,email,password,confirmPassword)=>{
   }
 }
 
-// export const initialUser=()=>{
-//   return (dispatch)=>dispatch(initialUserAction())
-// }
 
 // const signIn = async (email,password)=>{
 //   console.log(email ,password);

@@ -16,7 +16,7 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import { useSelector  } from "react-redux";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -105,13 +105,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Header =():JSX.Element=>{
   const classes = useStyles();
   const [isOpen,setIsOpen]=useState(false)
-  let logged = false
-   logged = false
+  const userSelector = (state) =>state.users.token
+  const authUser = useSelector(userSelector)
   const isAccountImage = true
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)
   }
-
   return(
     <div className="">
       <div className={classes.root}>
@@ -132,7 +131,7 @@ export const Header =():JSX.Element=>{
             onOpen={()=>toggleDrawer(true)}
           >
               <List className={classes.list}>
-                { logged ?
+                { authUser ?
                     ['Home', 'Mypage', 'Output', 'Setting',"Information","Logout"].map((text, index) => (
                       <ListItem button key={text}>
                         <ListItemText primary={text} />
@@ -152,7 +151,7 @@ export const Header =():JSX.Element=>{
             <img src={Logo} alt="done" className={classes.img}/>
           </div>
           {
-            logged ?
+            authUser ?
             <div className={classes.buttonBox}>
                <IconButton >
                 <SvgIcon  color="action">
