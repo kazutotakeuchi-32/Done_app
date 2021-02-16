@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Header } from './components/Header/Header'
 import { connect } from 'react-redux';
 import { Footer } from './components/Footer/Footer';
