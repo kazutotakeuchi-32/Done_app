@@ -18,14 +18,3 @@ export const configureStore=(history)=>
       thunk
     )
   )
-  // export default function createStore(history) {
-  //   return compose(persistState())(reduxCreateStore)(
-  //     combineReducers({
-  //       todo: todoReducer,
-  //       router: routerReducer
-  //     }),
-  //     applyMiddleware(
-  //       routerMiddleware(history)
-  //     )
-  //   );
-  // }

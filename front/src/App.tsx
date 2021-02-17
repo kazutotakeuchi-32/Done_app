@@ -12,6 +12,7 @@ import { Signup } from './containers/Signup';
 import { Mypage } from './containers/Mypage';
 import { PrivateRoute } from './components/PrivateRoute';
 import { Confirmation } from './containers/Confirmation';
+import { Reset } from './containers/Reset';
 export const App =():JSX.Element=>{
 
   return (
@@ -26,6 +27,9 @@ export const App =():JSX.Element=>{
               </Route>
               <Route exact path="/login">
                 <Login/>
+              </Route>
+              <Route exact path="/login/reset">
+                <Reset/>
               </Route>
               <Route exact path="/confirmation">
                 <Confirmation/>
