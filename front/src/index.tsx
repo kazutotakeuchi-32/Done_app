@@ -8,14 +8,16 @@ import reportWebVitals from './reportWebVitals'
 import { createBrowserHistory } from "history";
 import { ConnectedRouter} from "connected-react-router";
 import { configureStore } from './reducks/store/store';
-
+import { CookiesProvider } from "react-cookie";
 const history = createBrowserHistory()
 const store = configureStore(history)
 
 render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App />
+      <CookiesProvider>
+        <App />
+      </CookiesProvider>
     </ConnectedRouter>
   </Provider>
 ,
