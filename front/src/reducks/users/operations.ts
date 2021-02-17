@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useSelector  } from "react-redux";
+import { Cookies } from "react-cookie";
+// import cookie from "js-cookie";
 import {push} from "connected-react-router";
 import { signUpAction ,signInAction,signOutAction} from "../users/actions";
 import { initialState } from "../store/initialState";
+
 function userDatas(data,headers){
   return {
     id:data.id,
@@ -40,7 +42,7 @@ export const signIn =(email,password)=>{
     const res = await axios.post("http://localhost:3000/api/v1/auth/sign_in",{
       email:email,
       password:password,
-    })
+    },{withCredentials : true})
     if (res.status == 200) {
       const headers = res.headers
       const data = res.data.data
