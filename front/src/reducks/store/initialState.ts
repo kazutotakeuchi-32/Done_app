@@ -7,6 +7,7 @@ export const initialState ={
     admin:false,
     client:null,
     token:null,
-    uid:""
+    uid:"",
+    actived:false
   }
 }

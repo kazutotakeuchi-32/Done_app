@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Link } from "@material-ui/core";
-import { signIn } from "../reducks/users/operations";
+import { resetPassword, signIn } from "../reducks/users/operations";
 
 const SignupSchema = yup.object().shape({
   email: yup
@@ -57,7 +57,8 @@ export const Reset = ()=>{
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleSubmit = (value)=>{
-    // dispatch()
+    console.log(value);
+    dispatch(resetPassword(value.email))
   }
   return (
     <Container component="main" maxWidth="xs">
@@ -68,8 +69,7 @@ export const Reset = ()=>{
         </Typography>
         <Formik
           initialValues={{
-            email: "",
-            password: ""
+            email: ""
           }}
           validationSchema={SignupSchema}
           onSubmit={handleSubmit}

@@ -82,7 +82,6 @@ export const Login = () => {
           {({ errors, handleChange, touched }) => (
             <Form className={classes.form}>
               <Grid container spacing={2}>
-
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
@@ -118,7 +117,7 @@ export const Login = () => {
                   <Link href="/signup">アカウント登録はこちら</Link>
                 </Grid>
                 <Grid  item xs={12}>
-                  <Link href="/">パスワードを忘れた方はこちら </Link>
+                  <Link href="/login/reset">パスワードを忘れた方はこちら </Link>
                 </Grid>
               </Grid>
               <Button

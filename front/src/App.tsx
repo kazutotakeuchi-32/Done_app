@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header } from './components/Header/Header'
 import { connect } from 'react-redux';
 import { Footer } from './components/Footer/Footer';
@@ -11,8 +11,14 @@ import { Login } from './containers/Login';
 import { Signup } from './containers/Signup';
 import { Mypage } from './containers/Mypage';
 import { PrivateRoute } from './components/PrivateRoute';
-import { Confirmation } from './containers/Confirmation';
 import { Reset } from './containers/Reset';
+import { ConfirmationMail } from './containers/ConfirmationMail';
+import { ConfirmationPassword } from './containers/ConfirmationPassword';
+import { useSelector ,useDispatch } from "react-redux";
+import { activateAccount } from './reducks/users/operations';
+import { push } from 'connected-react-router';
+
+
 export const App =():JSX.Element=>{
 
   return (
@@ -28,11 +34,15 @@ export const App =():JSX.Element=>{
               <Route exact path="/login">
                 <Login/>
               </Route>
+              {/* confrimation/mail */}
               <Route exact path="/login/reset">
                 <Reset/>
               </Route>
-              <Route exact path="/confirmation">
-                <Confirmation/>
+              <Route exact path="/confirmation/mail">
+                <ConfirmationMail/>
+              </Route>
+              <Route exact path="/confirmation/password">
+                <ConfirmationPassword/>
               </Route>
               <PrivateRoute exact path="/users/:id" component={Mypage} />
               {/* <Route  path="/users/:id">

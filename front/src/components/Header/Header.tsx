@@ -106,10 +106,11 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Header =():JSX.Element=>{
   const classes = useStyles();
   const [isOpen,setIsOpen]=useState(false)
+  const [isLogin,setIsLogin]=useState(false)
   const userSelector = (state) =>state.users
   const user = useSelector(userSelector)
   const authUser  = user.token
-
+  const isActived = user.actived
   const isAccountImage = true
   const  dispatch= useDispatch()
   const toggleDrawer=(open:boolean):void=>{
@@ -118,6 +119,13 @@ export const Header =():JSX.Element=>{
   const handleClick=()=>{
     dispatch(signOut(user))
   }
+  useEffect(()=>{
+    if (authUser&&isActived) {
+      setIsLogin(true)
+    }else{
+      setIsLogin(false)
+    }
+  },[isActived])
 
   return(
     <div className="">
@@ -139,7 +147,7 @@ export const Header =():JSX.Element=>{
             onOpen={()=>toggleDrawer(true)}
           >
               <List className={classes.list}>
-                { authUser ?
+                { isLogin ?
                     ['Home', 'Mypage', 'Output', 'Setting',"Information","Logout"].map((text, index) =>{
                           if (text == "Logout") {
                             return(
@@ -169,7 +177,7 @@ export const Header =():JSX.Element=>{
             <img src={Logo} alt="done" className={classes.img}/>
           </div>
           {
-            authUser ?
+            isLogin ?
             <div className={classes.buttonBox}>
                <IconButton >
                 <SvgIcon  color="action">

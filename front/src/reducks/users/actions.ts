@@ -9,6 +9,7 @@ export const signUpAction=(users)=>{
    }
   )
 }
+
 export const SIGN_IN = "SIGN_IN"
 export const signInAction = (users)=>{
   return(
@@ -31,8 +32,26 @@ export const signOutAction = (users)=>{
   })
 }
 
-export const INTIAL_USER ="INTIAL_USER"
+export const RESET_PASSWORD = "RESET_PASSWORD"
+export const resetPasswordAction = ()=>{
+  return({
+    type:"RESET_PASSWORD"
+  })
+}
 
+export const ACTIVATE_ACCOUNT = "ACTIVATE_ACCOUNT"
+export const activateAccountAction= (users)=>{
+  return(
+    {
+      type:"ACTIVATE_ACCOUNT",
+      Payload:{
+        users
+      }
+    }
+  )
+}
+
+export const INTIAL_USER ="INTIAL_USER"
 export const initialUserAction=()=>{
   return(
     {
