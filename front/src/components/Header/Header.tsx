@@ -116,7 +116,7 @@ export const Header =():JSX.Element=>{
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)
   }
-  // git branch -m
+
   const handleClick=()=>{
     dispatch(signOut(user))
   }
