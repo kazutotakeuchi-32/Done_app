@@ -43,7 +43,7 @@ export const signUp=(userName,email,password,confirmPassword)=>{
       email:email,
       password:password,
       password_confirmation:confirmPassword,
-      confirm_success_url:""
+      confirm_success_url:"http://localhost:3001/"
     })
     console.log(res);
     if (res.status == 200) {
