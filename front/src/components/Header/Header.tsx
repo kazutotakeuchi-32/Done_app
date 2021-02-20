@@ -18,6 +18,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useSelector ,useDispatch } from "react-redux";
 import { signOut } from "../../reducks/users/operations";
+import { Link } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -120,6 +121,8 @@ export const Header =():JSX.Element=>{
   const handleClick=()=>{
     dispatch(signOut(user))
   }
+
+
   useEffect(()=>{
     if (authUser&&isActived) {
       setIsLogin(true)
@@ -165,9 +168,11 @@ export const Header =():JSX.Element=>{
                         }
                       )
                   :
-                    ['Signup', 'Login'].map((text, index) => (
-                      <ListItem button key={text}>
-                        <ListItemText primary={text} />
+                    [{value:'Signup',url:'/signup'},{ value:'Login',url:'/login'}].map((contents, index) => (
+                      <ListItem button key={index}  >
+                        <Link href={contents.url}  >
+                          <ListItemText  primary={contents.value} />
+                        </Link>
                       </ListItem>
                     ))
                 }

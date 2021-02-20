@@ -17,6 +17,7 @@ import { ConfirmationPassword } from './containers/ConfirmationPassword';
 import { useSelector ,useDispatch } from "react-redux";
 import { activateAccount } from './reducks/users/operations';
 import { push } from 'connected-react-router';
+import { ConfirmationResetMail } from './containers/ConfirmationResetMail';
 
 
 export const App =():JSX.Element=>{
@@ -40,6 +41,9 @@ export const App =():JSX.Element=>{
               </Route>
               <Route exact path="/confirmation/mail">
                 <ConfirmationMail/>
+              </Route>
+              <Route exact path="/confirmation/reset">
+                <ConfirmationResetMail/>
               </Route>
               <Route exact path="/confirmation/password">
                 <ConfirmationPassword/>

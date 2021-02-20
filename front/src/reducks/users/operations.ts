@@ -1,7 +1,14 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import {push} from "connected-react-router";
-import { signUpAction ,signInAction,signOutAction,resetPasswordAction,activateAccountAction} from "../users/actions";
+import { signUpAction ,
+          signInAction,
+          signOutAction,
+          resetPasswordAction,
+          activateAccountAction,
+          updatePasswordAction
+} from "../users/actions";
+
 import { initialState } from "../store/initialState";
 import crypto  from "crypto-js";
 function userDatas(data,headers,type="SIGN_IN"){
@@ -27,6 +34,7 @@ function userDatas(data,headers,type="SIGN_IN"){
             token:"",
             actived:false,
           }
+
   }
 
 function encryptKey():string {
@@ -75,13 +83,15 @@ export const signIn =(email,password)=>{
       const data = res.data.data
       const user = userDatas(data,headers)
       dispatch(signInAction(user))
+      if (localStorage.getItem("updatePassword")) {
+        localStorage.removeItem("updatePassword")
+      }
       dispatch(push("/"))
     }else{
       return false
     }
   }
 }
-
 
 export const signOut=({uid,client,token})=>{
   const option ={
@@ -111,11 +121,42 @@ export const signOut=({uid,client,token})=>{
 
 export const resetPassword=(email)=>{
   return async (dispatch)=>{
-    const res = await axios.post("http://localhost:3000/api/v1/auth",{email:email})
-    console.log(res);
-    dispatch(resetPasswordAction())
+    const res = await axios.post("http://localhost:3000/api/v1/auth/password",{
+      email:email,
+      redirect_url:"http://localhost:3001/confirmation/password"
+    })
+    if (res.status==200) {
+      dispatch(resetPasswordAction())
+      dispatch(push("/confirmation/reset"))
+    }
   }
 }
+
+export const updatePassword=(password,confirmPassword,{token,uid,client})=>{
+  const option={
+    headers:{
+      'client':client,
+      'access-token':token,
+      'uid':uid
+    }
+  }
+  return async (dispatch)=>{
+    const res = await axios.put("http://localhost:3000/api/v1/auth/password",{
+      password:password,
+      password_confirmation:confirmPassword
+    },option)
+    if (res.status==200) {
+      dispatch(updatePasswordAction)
+      dispatch(push("/login"))
+      localStorage.setItem("updatePassword","success")
+    }
+
+  }
+
+}
+// curl localhost:3000/api/v1/auth/password -X
+// POST -d '{"email":"kazutotakeuchi32@gmail.com",
+// "redirect_url":"http://localhost:3001/"}
 
 export const activateAccount = ()=>{
   const EP = localStorage.getItem("EP")
@@ -125,7 +166,10 @@ export const activateAccount = ()=>{
   const DE = crypto.AES.decrypt(EE,EK)
   localStorage.removeItem("EP")
   localStorage.removeItem("EE")
-  const [DPS,DES] =[DP.toString(crypto.enc.Utf8),DE.toString(crypto.enc.Utf8)]
+  const [DPS,DES] = [
+      DP.toString(crypto.enc.Utf8),
+      DE.toString(crypto.enc.Utf8)
+  ]
   return async (dispatch)=>{
     const res = await axios.post("http://localhost:3000/api/v1/auth/sign_in",{
       email: DES,

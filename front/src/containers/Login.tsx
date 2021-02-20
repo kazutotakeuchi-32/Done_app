@@ -1,5 +1,5 @@
 import React from "react"
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -11,6 +11,7 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Link } from "@material-ui/core";
 import { signIn } from "../reducks/users/operations";
+import { push } from "connected-react-router";
 
 
 const SignupSchema = yup.object().shape({
@@ -60,7 +61,13 @@ const useStyles = makeStyles(theme => ({
 
 export const Login = () => {
   const classes = useStyles();
+  const userSelector = state=>state.users
+  const actived = useSelector(userSelector).actived
   const dispatch = useDispatch()
+
+  if (actived) {
+    dispatch(push("/"))
+  }
   const handleSubmit =(value)=>{
     dispatch(signIn(value.email,value.password))
   }

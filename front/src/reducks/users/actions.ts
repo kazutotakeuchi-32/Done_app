@@ -39,6 +39,16 @@ export const resetPasswordAction = ()=>{
   })
 }
 
+export const UPDATE_PASSWORD = "UPDATE_PASSWORD"
+export const updatePasswordAction = (users)=>{
+  return({
+    type:"UPDATE_PASSWORD",
+    Payload:{
+      users
+    }
+  })
+}
+
 export const ACTIVATE_ACCOUNT = "ACTIVATE_ACCOUNT"
 export const activateAccountAction= (users)=>{
   return(

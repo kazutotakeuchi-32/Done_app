@@ -16,7 +16,7 @@ export const PrivateRoute = ({...props})=>{
   useEffect(()=>{
     const fetchActivateAccount= async ()=>{
       if (/account_confirmation_success=true/.test(href)) {
-        if (localStorage.getItem("EP")&& localStorage.getItem("EE")) {
+        if (localStorage.getItem("EP") && localStorage.getItem("EE")) {
           await dispatch(activateAccount())
           return
         }
