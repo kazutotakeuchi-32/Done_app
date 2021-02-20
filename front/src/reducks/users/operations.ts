@@ -185,7 +185,6 @@ export const activateAccount = ()=>{
   }
 }
 
-
 // export const Login = (email,password)=>{
 //   return (dispatch)=>{
 //   }

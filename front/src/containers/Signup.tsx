@@ -12,6 +12,7 @@ import * as yup from "yup";
 import { Link } from "@material-ui/core";
 import { Email, GridOn } from "@material-ui/icons";
 import { signUp } from "../reducks/users/operations";
+import { push } from "connected-react-router";
 
 const SignupSchema = yup.object().shape({
   name: yup.string().required("This field is required."),
@@ -60,12 +61,17 @@ const useStyles = makeStyles(theme => ({
 
 export const Signup = (props) => {
   // let token;
-
   const classes = useStyles();
   const dispatch = useDispatch()
+  const userSelector = state=>state.users.actived
+  const actived = useSelector(userSelector)
+  if (actived) {
+    dispatch(push("/"))
+  }
   const handleSubmid = ({name,email,password,confrimationPassword})=>{
     dispatch(signUp(name,email,password,confrimationPassword))
- }
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -156,7 +162,6 @@ export const Signup = (props) => {
                   <Link href="login">ログインはこちら</Link>
                 </Grid>
               </Grid>
-
               <Button
                 type="submit"
                 fullWidth
