@@ -13,6 +13,7 @@ import { Link } from "@material-ui/core";
 import { Email, GridOn } from "@material-ui/icons";
 import { signUp } from "../reducks/users/operations";
 import { push } from "connected-react-router";
+import  Logo from "../assets/images/done.png";
 
 const SignupSchema = yup.object().shape({
   name: yup.string().required("This field is required."),
@@ -56,6 +57,13 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  logo:{
+    marginRight:"10px",
+    height:"50px"
+  },
+  boild:{
+    fontWeight:800
   }
 }));
 
@@ -76,9 +84,14 @@ export const Signup = (props) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Sign Up
+       <Typography component="h1" variant="h5">
+        <img src={Logo} alt="" className={classes.logo}/>
+      </Typography>
+
+        <Typography component="h1" variant="h5" className={classes.boild} >
+         アカウント登録
         </Typography>
+
         <Formik
           initialValues={{
             name:"",
@@ -169,7 +182,7 @@ export const Signup = (props) => {
                 color="primary"
                 className={classes.submit}
               >
-                Sign Up
+                登録
               </Button>
             </Form>
           )}

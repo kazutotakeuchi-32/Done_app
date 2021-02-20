@@ -61,6 +61,15 @@ export const activateAccountAction= (users)=>{
   )
 }
 
+export const SETTINGS_ACCOUNT = "SETTINGS_ACCOUNT"
+export const settingsAccoutnAction = () => {
+  return(
+    {
+      type:"SETTINGS_ACCOUNT"
+    }
+  )
+}
+
 export const INTIAL_USER ="INTIAL_USER"
 export const initialUserAction=()=>{
   return(

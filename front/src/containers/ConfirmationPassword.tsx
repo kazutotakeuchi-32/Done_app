@@ -10,6 +10,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
+import  Logo from "../assets/images/done.png";
+
 import { Link } from "@material-ui/core";
 import { Email, GridOn } from "@material-ui/icons";
 import { signUp } from "../reducks/users/operations";
@@ -51,6 +53,13 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  logo:{
+    marginRight:"10px",
+    height:"50px"
+  },
+  boild:{
+    fontWeight:800
   }
 }));
 
@@ -86,9 +95,13 @@ export const ConfirmationPassword=()=>{
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Reset Password
+      <Typography component="h1" variant="h5">
+        <img src={Logo} alt="" className={classes.logo}/>
+      </Typography>
+        <Typography component="h1" variant="h5" className={classes.boild}>
+          パスワード変更
         </Typography>
+
         <Formik
           initialValues={{
             password: "",
@@ -143,7 +156,7 @@ export const ConfirmationPassword=()=>{
                 color="primary"
                 className={classes.submit}
               >
-                update
+               確定する
               </Button>
             </Form>
           )}

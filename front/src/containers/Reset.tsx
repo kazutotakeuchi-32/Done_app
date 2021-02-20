@@ -11,6 +11,8 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Link } from "@material-ui/core";
 import { resetPassword } from "../reducks/users/operations";
+import  Logo from "../assets/images/done.png";
+
 
 const SignupSchema = yup.object().shape({
   email: yup
@@ -49,6 +51,13 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  logo:{
+    marginRight:"10px",
+    height:"50px"
+  },
+  boild:{
+    fontWeight:800
   }
 }));
 
@@ -63,9 +72,17 @@ export const Reset = ()=>{
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          For got password?
+
+      <Typography component="h1" variant="h5">
+        <img src={Logo} alt="" className={classes.logo}/>
+      </Typography>
+
+        <Typography component="h1" variant="h5" className={classes.boild}>
+          パスワード再発行
         </Typography>
+        {/* <Typography component="h5" >
+          ご登録頂いたメールアドレスを入力をしてください。パスワードを再発行します。
+        </Typography> */}
         <Formik
           initialValues={{
             email: ""
@@ -104,7 +121,7 @@ export const Reset = ()=>{
                 color="primary"
                 className={classes.submit}
               >
-                Reset
+                再発行
               </Button>
             </Form>
           )}

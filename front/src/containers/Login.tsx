@@ -12,7 +12,8 @@ import * as yup from "yup";
 import { Link } from "@material-ui/core";
 import { signIn } from "../reducks/users/operations";
 import { push } from "connected-react-router";
-
+// import  Logo from "../assets/images/Done (4).png";
+import  Logo from "../assets/images/done.png";
 
 const SignupSchema = yup.object().shape({
   email: yup
@@ -56,7 +57,15 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  logo:{
+    marginRight:"10px",
+    height:"50px"
+  },
+  boild:{
+    fontWeight:800
   }
+
 }));
 
 export const Login = () => {
@@ -75,8 +84,12 @@ export const Login = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Login
+      <Typography component="h1" variant="h5">
+        <img src={Logo} className={classes.logo}  width="auto" />
+      </Typography>
+        <Typography component="h1" variant="h5" className={classes.boild}>
+          {/* Login */}
+          ログイン
         </Typography>
         <Formik
           initialValues={{
@@ -134,7 +147,7 @@ export const Login = () => {
                 color="primary"
                 className={classes.submit}
               >
-                Login
+                ログインする
               </Button>
             </Form>
           )}

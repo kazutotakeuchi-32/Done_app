@@ -53,12 +53,11 @@ export const signUp=(userName,email,password,confirmPassword)=>{
       password_confirmation:confirmPassword,
       confirm_success_url:"http://localhost:3001/"
     })
-    console.log(res);
     if (res.status == 200) {
       const headers = res.headers
       const data = res.data.data
       const user = {...userDatas(data,headers,"SIGN_UP")}
-      const EK =encryptKey()
+      const EK = encryptKey()
       const EP = crypto.AES.encrypt(utf8_text(password),EK).toString()
       const EE = crypto.AES.encrypt(utf8_text(email),EK).toString()
       console.log(EP,EE);
@@ -185,12 +184,20 @@ export const activateAccount = ()=>{
   }
 }
 
-// export const Login = (email,password)=>{
-//   return (dispatch)=>{
-//   }
-// }
-// export const resetPassword=()=>{
-//   return (dispatch)=>{
-
-//   }
-// }
+export const settingsAccount=(password,confirmPassword)=>{
+  const {uid,client,token} = JSON.parse(localStorage.redux).users
+  const option={
+    headers:{
+      'client':client,
+      'access-token':token,
+      'uid':uid
+    }
+  }
+  return async(dispatch)=>{
+    // PUT
+    const res = axios.put("http://localhost:3000/api/v1/auth",{
+      password:password,
+      password_confirmation:confirmPassword
+    },option)
+  }
+}

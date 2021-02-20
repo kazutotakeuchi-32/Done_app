@@ -18,24 +18,24 @@ import { useSelector ,useDispatch } from "react-redux";
 import { activateAccount } from './reducks/users/operations';
 import { push } from 'connected-react-router';
 import { ConfirmationResetMail } from './containers/ConfirmationResetMail';
+import { Setting } from './containers/Setting';
 
 
 export const App =():JSX.Element=>{
-
   return (
     <>
-      <Header/>
+        <Header/>
         <main>
-            <Switch>
+          <Switch>
               <PrivateRoute exact path="/" component={Home}/>
-              {/* <PrivateRoute exact path="/profile/:userId" component={ProfilePage}/>  */}
+              <PrivateRoute exact path="/users/setting" component={Setting}/>
+              <PrivateRoute exact path="/users/:id" component={Mypage} />
               <Route exact path="/signup">
                 <Signup/>
               </Route>
               <Route exact path="/login">
                 <Login/>
               </Route>
-              {/* confrimation/mail */}
               <Route exact path="/login/reset">
                 <Reset/>
               </Route>
@@ -48,10 +48,6 @@ export const App =():JSX.Element=>{
               <Route exact path="/confirmation/password">
                 <ConfirmationPassword/>
               </Route>
-              <PrivateRoute exact path="/users/:id" component={Mypage} />
-              {/* <Route  path="/users/:id">
-                <Mypage/>
-              </Route> */}
             </Switch>
         </main>
       <Footer/>

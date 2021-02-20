@@ -11,8 +11,8 @@ export const UsersReducer=(state=initialState.user,action)=>{
        ...action.Payload.users
       }
     case Actions.INTIAL_USER:
-      return  state
     case Actions.RESET_PASSWORD:
+    case Actions.SETTINGS_ACCOUNT:
       return  state
     default:
       return state

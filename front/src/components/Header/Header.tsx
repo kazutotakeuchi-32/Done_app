@@ -101,6 +101,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: theme.spacing(7),
       height: theme.spacing(7),
     },
+    none:{
+      display:"none"
+    }
   }),
 );
 
@@ -114,12 +117,12 @@ export const Header =():JSX.Element=>{
   const user = useSelector(userSelector)
   const authUser  = user.token
   const isActived = user.actived
+  const id = user.id
   const isAccountImage = false
   const  dispatch= useDispatch()
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)
   }
-
   const handleClick=()=>{
     dispatch(signOut(user))
 
@@ -139,9 +142,8 @@ export const Header =():JSX.Element=>{
       setIsLogin(false)
     }
   },[isActived])
-
   return(
-    <div className="">
+    <div className={isActived? "": classes.none}>
       <div className={classes.root}>
       <AppBar position="static" className={classes.header}>
         <Toolbar className={classes.root}>
@@ -225,9 +227,9 @@ export const Header =():JSX.Element=>{
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClick}>Logout</MenuItem>
+                <MenuItem onClick={handleClose} ><Link href={`/users/${id}`}>マイページ</Link></MenuItem>
+                <MenuItem onClick={handleClose}><Link  href="/users/setting">アカウント設定</Link></MenuItem>
+                <MenuItem onClick={handleClick}>ログアウト</MenuItem>
               </Menu>
             </div>
           :
