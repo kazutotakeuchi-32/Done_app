@@ -18,7 +18,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useSelector ,useDispatch } from "react-redux";
 import { signOut } from "../../reducks/users/operations";
-import { Link } from "@material-ui/core";
+import { Link, Menu, MenuItem } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -108,11 +108,13 @@ export const Header =():JSX.Element=>{
   const classes = useStyles();
   const [isOpen,setIsOpen]=useState(false)
   const [isLogin,setIsLogin]=useState(false)
+  const [anchorEl,setAnchorEl]=useState(null)
+  const open = Boolean(anchorEl)
   const userSelector = (state) =>state.users
   const user = useSelector(userSelector)
   const authUser  = user.token
   const isActived = user.actived
-  const isAccountImage = true
+  const isAccountImage = false
   const  dispatch= useDispatch()
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)
@@ -120,8 +122,15 @@ export const Header =():JSX.Element=>{
 
   const handleClick=()=>{
     dispatch(signOut(user))
+
   }
 
+  const handleMenu = (e)=>{
+    setAnchorEl(e.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(()=>{
     if (authUser&&isActived) {
@@ -193,16 +202,33 @@ export const Header =():JSX.Element=>{
               <IconButton >
                 <NotificationsIcon />
               </IconButton>
-              {
-              isAccountImage ?
-                <IconButton>
-                  <Avatar className={classes.small} alt="Remy Sharp"  src={Img} />
-                </IconButton>
-              :
-                <IconButton  >
-                  <AccountCircle/>
-                </IconButton>
-              }
+              <IconButton onClick={handleMenu}>
+                {
+                  isAccountImage ?
+                    <Avatar className={classes.small} alt="Remy Sharp"  src={Img} />
+                  :
+                    <AccountCircle/>
+                }
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClick}>Logout</MenuItem>
+              </Menu>
             </div>
           :
             <div className={classes.buttonBox}>
