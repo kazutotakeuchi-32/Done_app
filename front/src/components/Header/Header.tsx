@@ -117,16 +117,16 @@ export const Header =():JSX.Element=>{
   const user = useSelector(userSelector)
   const authUser  = user.token
   const isActived = user.actived
+  const avatar = user.avatar
   const id = user.id
-  const isAccountImage = false
   const  dispatch= useDispatch()
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)
   }
   const handleClick=()=>{
     dispatch(signOut(user))
-
   }
+
 
   const handleMenu = (e)=>{
     setAnchorEl(e.currentTarget)
@@ -134,6 +134,8 @@ export const Header =():JSX.Element=>{
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+
 
   useEffect(()=>{
     if (authUser&&isActived) {
@@ -206,8 +208,8 @@ export const Header =():JSX.Element=>{
               </IconButton>
               <IconButton onClick={handleMenu}>
                 {
-                  isAccountImage ?
-                    <Avatar className={classes.small} alt="Remy Sharp"  src={Img} />
+                  avatar!="" ?
+                    <Avatar className={classes.small} alt="Remy Sharp"  src={avatar} />
                   :
                     <AccountCircle/>
                 }

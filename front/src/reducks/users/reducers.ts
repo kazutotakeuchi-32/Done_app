@@ -7,12 +7,12 @@ export const UsersReducer=(state=initialState.user,action)=>{
     case Actions.SIGN_OUT:
     case Actions.ACTIVATE_ACCOUNT:
     case Actions.UPDATE_PASSWORD:
+    case Actions.SETTINGS_ACCOUNT:
       return {
        ...action.Payload.users
       }
     case Actions.INTIAL_USER:
     case Actions.RESET_PASSWORD:
-    case Actions.SETTINGS_ACCOUNT:
       return  state
     default:
       return state

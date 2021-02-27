@@ -12,7 +12,6 @@ import * as yup from "yup";
 import { Link } from "@material-ui/core";
 import { signIn } from "../reducks/users/operations";
 import { push } from "connected-react-router";
-// import  Logo from "../assets/images/Done (4).png";
 import  Logo from "../assets/images/done.png";
 
 const SignupSchema = yup.object().shape({
@@ -73,13 +72,13 @@ export const Login = () => {
   const userSelector = state=>state.users
   const actived = useSelector(userSelector).actived
   const dispatch = useDispatch()
-
   if (actived) {
     dispatch(push("/"))
   }
   const handleSubmit =(value)=>{
     dispatch(signIn(value.email,value.password))
   }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

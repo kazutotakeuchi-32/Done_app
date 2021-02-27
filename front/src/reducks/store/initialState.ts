@@ -3,7 +3,7 @@ export const initialState ={
     id: null,
     name:"",
     email:"",
-    avatar:"",
+    // avatar:"",
     admin:false,
     client:null,
     token:null,

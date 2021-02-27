@@ -62,10 +62,13 @@ export const activateAccountAction= (users)=>{
 }
 
 export const SETTINGS_ACCOUNT = "SETTINGS_ACCOUNT"
-export const settingsAccoutnAction = () => {
+export const settingsAccoutnAction = (users) => {
   return(
     {
-      type:"SETTINGS_ACCOUNT"
+      type:"SETTINGS_ACCOUNT",
+      Payload:{
+        users
+      }
     }
   )
 }

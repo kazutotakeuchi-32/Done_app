@@ -6,17 +6,16 @@ import { signUpAction ,
           signOutAction,
           resetPasswordAction,
           activateAccountAction,
-          updatePasswordAction
+          updatePasswordAction,
+          settingsAccoutnAction
 } from "../users/actions";
-
-import { initialState } from "../store/initialState";
 import crypto  from "crypto-js";
 function userDatas(data,headers,type="SIGN_IN"){
-    return  type== "SIGN_IN" || type=="ACTIVEATE_ACCOUNT" ?
+    return  type== "SIGN_IN" || type=="ACTIVEATE_ACCOUNT" || type=="SETTINGS_ACCOUNT"?
         {
           id:data.id,
           name:data.name,
-          avatar:data.avatar,
+          avatar:data.avatar? data.avatar: "",
           admin:data.admin,
           client:headers['client'],
           uid:headers['uid'],
@@ -27,16 +26,14 @@ function userDatas(data,headers,type="SIGN_IN"){
           {
             id:data.id,
             name:data.name,
-            avatar:data.avatar,
+            avatar:data.avatar? data.avatar: "",
             admin:data.admin,
             client:"",
             uid:"",
             token:"",
             actived:false,
           }
-
   }
-
 function encryptKey():string {
   return  "0123456789ABCDEF0123456789ABCDEF";
 }
@@ -154,7 +151,6 @@ export const updatePassword=(password,confirmPassword,{token,uid,client})=>{
 
 }
 // curl localhost:3000/api/v1/auth/password -X
-// POST -d '{"email":"kazutotakeuchi32@gmail.com",
 // "redirect_url":"http://localhost:3001/"}
 
 export const activateAccount = ()=>{
@@ -184,7 +180,7 @@ export const activateAccount = ()=>{
   }
 }
 
-export const settingsAccount=(password,confirmPassword)=>{
+export const settingsAccount=({name,email},imageUrl)=>{
   const {uid,client,token} = JSON.parse(localStorage.redux).users
   const option={
     headers:{
@@ -194,10 +190,19 @@ export const settingsAccount=(password,confirmPassword)=>{
     }
   }
   return async(dispatch)=>{
-    // PUT
-    const res = axios.put("http://localhost:3000/api/v1/auth",{
-      password:password,
-      password_confirmation:confirmPassword
+    const res = await axios.put("http://localhost:3000/api/v1/auth",{
+      name:name,
+      email:email,
+      avatar:imageUrl,
     },option)
+    console.log(res);
+    // data.data
+    if (res.status==200) {
+      const headers = res.headers
+      const data = res.data.data
+      const user = {...userDatas(data,headers,"SETTINGS_ACCOUNT")}
+      dispatch(settingsAccoutnAction(user))
+      dispatch(push("/"))
+    }
   }
 }

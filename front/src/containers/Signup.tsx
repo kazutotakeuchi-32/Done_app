@@ -14,6 +14,7 @@ import { Email, GridOn } from "@material-ui/icons";
 import { signUp } from "../reducks/users/operations";
 import { push } from "connected-react-router";
 import  Logo from "../assets/images/done.png";
+import { log } from "util";
 
 const SignupSchema = yup.object().shape({
   name: yup.string().required("This field is required."),
@@ -69,6 +70,8 @@ const useStyles = makeStyles(theme => ({
 
 export const Signup = (props) => {
   // let token;
+  console.log(props);
+
   const classes = useStyles();
   const dispatch = useDispatch()
   const userSelector = state=>state.users.actived
@@ -89,7 +92,7 @@ export const Signup = (props) => {
       </Typography>
 
         <Typography component="h1" variant="h5" className={classes.boild} >
-         アカウント登録
+          アカウント登録
         </Typography>
 
         <Formik

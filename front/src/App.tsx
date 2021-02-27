@@ -19,6 +19,7 @@ import { activateAccount } from './reducks/users/operations';
 import { push } from 'connected-react-router';
 import { ConfirmationResetMail } from './containers/ConfirmationResetMail';
 import { Setting } from './containers/Setting';
+import { Sidbar } from './components/Sidbar/Sidbar';
 
 
 export const App =():JSX.Element=>{
@@ -32,6 +33,9 @@ export const App =():JSX.Element=>{
               <PrivateRoute exact path="/users/:id" component={Mypage} />
               <Route exact path="/signup">
                 <Signup/>
+              </Route>
+              <Route exact path="/admin/login">
+                <Login />
               </Route>
               <Route exact path="/login">
                 <Login/>
