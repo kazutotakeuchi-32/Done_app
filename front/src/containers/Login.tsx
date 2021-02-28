@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Link } from "@material-ui/core";
-import { signIn } from "../reducks/users/operations";
+import { adminSignIn, signIn } from "../reducks/users/operations";
 import { push } from "connected-react-router";
 import  Logo from "../assets/images/done.png";
 
@@ -67,7 +67,9 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export const Login = () => {
+export const Login = (props:{
+  name:string
+}) => {
   const classes = useStyles();
   const userSelector = state=>state.users
   const actived = useSelector(userSelector).actived
@@ -75,8 +77,11 @@ export const Login = () => {
   if (actived) {
     dispatch(push("/"))
   }
-  const handleSubmit =(value)=>{
-    dispatch(signIn(value.email,value.password))
+  const handleSubmit =(values)=>{
+    props.name=="ログイン(管理者)"?
+        dispatch(adminSignIn(values))
+      :
+        dispatch(signIn(values))
   }
 
   return (
@@ -88,13 +93,23 @@ export const Login = () => {
       </Typography>
         <Typography component="h1" variant="h5" className={classes.boild}>
           {/* Login */}
-          ログイン
+          {props.name}
         </Typography>
         <Formik
-          initialValues={{
-            email: "",
-            password: ""
-          }}
+
+          initialValues={
+            props.name=="ログイン(管理者)"?
+            {
+              email: "",
+              password: "",
+              secretWord:""
+            }
+            :
+            {
+              email: "",
+              password: ""
+            }
+        }
           validationSchema={SignupSchema}
           onSubmit={handleSubmit}
         >
@@ -132,6 +147,27 @@ export const Login = () => {
                     }
                   />
                 </Grid>
+                {
+                  props.name=="ログイン(管理者)" &&
+                  <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    onChange={handleChange}
+                    name="secretWord"
+                    label="secretWord"
+                    type="password"
+                    id="secretWord"
+                    autoComplete="secretWord"
+
+                    // helperText={
+                    //   errors.password && touched.password
+                    //     ? errors.password
+                    //     : null
+                    // }
+                  />
+                </Grid>
+                }
                 <Grid  item xs={12}>
                   <Link href="/signup">アカウント登録はこちら</Link>
                 </Grid>

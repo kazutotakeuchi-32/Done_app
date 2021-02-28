@@ -22,6 +22,19 @@ export const signInAction = (users)=>{
   )
 }
 
+export const ADMIN_SIGN_IN = "ADMIN_SIGN_IN"
+export const adminSignInAction = (users)=>{
+  return(
+    {
+      type:"ADMIN_SIGN_IN",
+      Payload:{
+        users
+      }
+    }
+  )
+}
+
+
 export const SIGN_OUT = "SIGN_OUT"
 export const signOutAction = (users)=>{
   return({
@@ -31,6 +44,16 @@ export const signOutAction = (users)=>{
     }
   })
 }
+export const ADMIN_SIGN_OUT ="ADMIN_SIGN_OUT"
+export const adminSignOutAction = (users)=>{
+  return ({
+    type: "ADMIN_SIGN_OUT",
+    Payload:{
+      users
+    }
+  })
+}
+
 
 export const RESET_PASSWORD = "RESET_PASSWORD"
 export const resetPasswordAction = ()=>{

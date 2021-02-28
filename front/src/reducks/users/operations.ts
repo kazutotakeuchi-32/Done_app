@@ -7,8 +7,11 @@ import { signUpAction ,
           resetPasswordAction,
           activateAccountAction,
           updatePasswordAction,
-          settingsAccoutnAction
-} from "../users/actions";
+          settingsAccoutnAction,
+          adminSignInAction,
+          adminSignOutAction
+  }
+from "../users/actions";
 import crypto  from "crypto-js";
 function userDatas(data,headers,type="SIGN_IN"){
     return  type== "SIGN_IN" || type=="ACTIVEATE_ACCOUNT" || type=="SETTINGS_ACCOUNT"?
@@ -68,7 +71,7 @@ export const signUp=(userName,email,password,confirmPassword)=>{
   }
 }
 
-export const signIn =(email,password)=>{
+export const signIn =({email,password})=>{
   return async (dispatch)=>{
     const res = await axios.post("http://localhost:3000/api/v1/auth/sign_in",{
       email:email,
@@ -89,6 +92,68 @@ export const signIn =(email,password)=>{
   }
 }
 
+export const adminSignIn = ({email,password,secretWord})=>{
+    return async (dispatch)=>{
+      const res = await axios.post("http://localhost:3000/api/v1/admin/sign_in",{
+        email:email,
+        password:password,
+        "secret_word":secretWord
+      },{withCredentials : true})
+      console.log(res);
+      if (res.status == 200) {
+        const headers = res.data.headers
+        const data = res.data.data
+        console.log(headers);
+        const user =  {
+          id:data.id,
+          name:data.name,
+          avatar:data.avatar? data.avatar: "",
+          admin:true,
+          client:headers['client'],
+          uid:data.uid,
+          token:headers['token'],
+          actived:true,
+          }
+        // console.log(user);
+        user.admin=true
+        dispatch(adminSignInAction(user))
+        if (localStorage.getItem("updatePassword")) {
+          localStorage.removeItem("updatePassword")
+        }
+        dispatch(push("/"))
+      }else{
+        return false
+      }
+    }
+}
+
+export const adminSignOut=({uid,client,token})=>{
+  const option ={
+    headers:{
+      'client':client,
+      'access-token':token,
+      'uid':uid
+    }
+  }
+  return async(dispatch)=>{
+   const res= await axios.delete("http://localhost:3000/api/v1/admin/sign_out",option)
+    console.log(res);
+    const user ={
+      id: null,
+      name:"",
+      email:"",
+      avatar:"",
+      admin:false,
+      client:null,
+      token:null,
+      uid:"",
+      actived:false,
+    }
+    dispatch(adminSignOutAction(user))
+  }
+}
+
+
 export const signOut=({uid,client,token})=>{
   const option ={
     headers:{
@@ -97,6 +162,7 @@ export const signOut=({uid,client,token})=>{
       'uid':uid
     }
   }
+
   return async(dispatch)=>{
    const res= await axios.delete("http://localhost:3000/api/v1/auth/sign_out",option)
     console.log(res);
@@ -113,6 +179,7 @@ export const signOut=({uid,client,token})=>{
     }
     dispatch(signOutAction(user))
   }
+
 }
 
 export const resetPassword=(email)=>{

@@ -17,7 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useSelector ,useDispatch } from "react-redux";
-import { signOut } from "../../reducks/users/operations";
+import { adminSignOut, signOut } from "../../reducks/users/operations";
 import { Link, Menu, MenuItem } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -119,12 +119,17 @@ export const Header =():JSX.Element=>{
   const isActived = user.actived
   const avatar = user.avatar
   const id = user.id
+  const adminUser = user.admin
   const  dispatch= useDispatch()
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)
   }
+
   const handleClick=()=>{
-    dispatch(signOut(user))
+    adminUser?
+      dispatch(adminSignOut(user))
+    :
+      dispatch(signOut(user))
   }
 
 
@@ -134,8 +139,6 @@ export const Header =():JSX.Element=>{
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-
 
   useEffect(()=>{
     if (authUser&&isActived) {

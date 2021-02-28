@@ -21,7 +21,6 @@ import { ConfirmationResetMail } from './containers/ConfirmationResetMail';
 import { Setting } from './containers/Setting';
 import { Sidbar } from './components/Sidbar/Sidbar';
 
-
 export const App =():JSX.Element=>{
   return (
     <>
@@ -35,10 +34,10 @@ export const App =():JSX.Element=>{
                 <Signup/>
               </Route>
               <Route exact path="/admin/login">
-                <Login />
+                <Login name={"ログイン(管理者)"}/>
               </Route>
               <Route exact path="/login">
-                <Login/>
+                <Login name={"ログイン"}/>
               </Route>
               <Route exact path="/login/reset">
                 <Reset/>

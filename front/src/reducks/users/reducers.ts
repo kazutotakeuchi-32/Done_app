@@ -5,6 +5,8 @@ export const UsersReducer=(state=initialState.user,action)=>{
     case Actions.SIGN_UP:
     case Actions.SIGN_IN:
     case Actions.SIGN_OUT:
+    case Actions.ADMIN_SIGN_IN:
+    case Actions.ADMIN_SIGN_OUT:
     case Actions.ACTIVATE_ACCOUNT:
     case Actions.UPDATE_PASSWORD:
     case Actions.SETTINGS_ACCOUNT:
