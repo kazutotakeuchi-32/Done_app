@@ -97,11 +97,9 @@ export const adminSignIn = ({email,password,secretWord})=>{
         password:password,
         "secret_word":secretWord
       },{withCredentials : true})
-      console.log(res);
       if (res.status == 200) {
         const headers = res.data.headers
         const data = res.data.data
-        console.log(headers);
         const user =  {
           id:data.id,
           name:data.name,
@@ -112,7 +110,6 @@ export const adminSignIn = ({email,password,secretWord})=>{
           token:headers['token'],
           actived:true,
           }
-
         user.admin=true
         dispatch(adminSignInAction(user))
         if (localStorage.getItem("updatePassword")) {
