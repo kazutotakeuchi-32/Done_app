@@ -20,6 +20,8 @@ import { push } from 'connected-react-router';
 import { ConfirmationResetMail } from './containers/ConfirmationResetMail';
 import { Setting } from './containers/Setting';
 import { Sidbar } from './components/Sidbar/Sidbar';
+import { LearningPlan } from './containers/LeraningPlan';
+import { LearningDone } from './containers/LearningDone';
 
 export const App =():JSX.Element=>{
   return (
@@ -28,6 +30,8 @@ export const App =():JSX.Element=>{
         <main>
           <Switch>
               <PrivateRoute exact path="/" component={Home}/>
+              <PrivateRoute exact path="/leraning/plan" component={LearningPlan}/>
+              <PrivateRoute exact path="/leraning/done" component={LearningDone}/>
               <PrivateRoute exact path="/users/setting" component={Setting}/>
               <PrivateRoute exact path="/users/:id" component={Mypage} />
               <Route exact path="/signup">
@@ -57,8 +61,6 @@ export const App =():JSX.Element=>{
     </>
   )
 }
-
-
 // const mapStateToProps = state => {
 //   return { users: state.users }
 // }
@@ -79,6 +81,4 @@ export const App =():JSX.Element=>{
 
 //   }
 // }
-
-
 // export default connect(mapStateToProps, mapDispatchToProp,mergeProps)(App)

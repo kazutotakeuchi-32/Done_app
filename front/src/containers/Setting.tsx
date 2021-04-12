@@ -129,7 +129,7 @@ export const Setting = ()=>{
       if (error) {
        return error
       } else {
-       const res = await fetch("http://localhost:3000/rails/active_storage/direct_uploads",{
+    const res = await fetch("http://localhost:3000/rails/active_storage/direct_uploads",{
           method:"put",
           headers:{
             'Content-Type':'application/json',
@@ -219,7 +219,6 @@ export const Setting = ()=>{
               </div>
             </div>
         </Grid>
-
       <Grid item  sm={6} xs={12} container spacing={4}>
       <div className={ classes.toolbar}/>
       <Grid  item xs={12} />

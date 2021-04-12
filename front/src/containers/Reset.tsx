@@ -61,7 +61,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
 export const Reset = ()=>{
   const classes = useStyles();
   const dispatch = useDispatch();

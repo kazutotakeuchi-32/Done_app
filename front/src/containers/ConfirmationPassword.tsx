@@ -12,10 +12,6 @@ import { Formik, Form } from "formik";
 import * as yup from "yup";
 import  Logo from "../assets/images/done.png";
 
-import { Link } from "@material-ui/core";
-import { Email, GridOn } from "@material-ui/icons";
-import { signUp } from "../reducks/users/operations";
-
 const SignupSchema = yup.object().shape({
   password: yup
     .string()

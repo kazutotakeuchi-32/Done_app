@@ -9,5 +9,6 @@ export const initialState ={
     token:null,
     uid:"",
     actived:false
-  }
+  },
+  learns:{}
 }

@@ -10,7 +10,7 @@ import { signUpAction ,
           settingsAccoutnAction,
           adminSignInAction,
           adminSignOutAction
-  }
+}
 from "../users/actions";
 import crypto  from "crypto-js";
 function userDatas(data,headers,type="SIGN_IN"){
@@ -36,14 +36,13 @@ function userDatas(data,headers,type="SIGN_IN"){
             token:"",
             actived:false,
           }
-  }
+}
 function encryptKey():string {
   return  "0123456789ABCDEF0123456789ABCDEF";
 }
 function  utf8_text(text:string)  {
   return crypto.enc.Utf8.parse(text);
 }
-
 export const signUp=(userName,email,password,confirmPassword)=>{
   return async (dispatch)=>{
     const res = await axios.post("http://localhost:3000/api/v1/auth",{
@@ -60,7 +59,6 @@ export const signUp=(userName,email,password,confirmPassword)=>{
       const EK = encryptKey()
       const EP = crypto.AES.encrypt(utf8_text(password),EK).toString()
       const EE = crypto.AES.encrypt(utf8_text(email),EK).toString()
-      console.log(EP,EE);
       localStorage.setItem("EP",EP)
       localStorage.setItem("EE",EE)
       dispatch(signUpAction({...user,actived:false}))
@@ -114,7 +112,7 @@ export const adminSignIn = ({email,password,secretWord})=>{
           token:headers['token'],
           actived:true,
           }
-        // console.log(user);
+
         user.admin=true
         dispatch(adminSignInAction(user))
         if (localStorage.getItem("updatePassword")) {
@@ -153,7 +151,6 @@ export const adminSignOut=({uid,client,token})=>{
   }
 }
 
-
 export const signOut=({uid,client,token})=>{
   const option ={
     headers:{
@@ -179,7 +176,6 @@ export const signOut=({uid,client,token})=>{
     }
     dispatch(signOutAction(user))
   }
-
 }
 
 export const resetPassword=(email)=>{
@@ -213,9 +209,7 @@ export const updatePassword=(password,confirmPassword,{token,uid,client})=>{
       dispatch(push("/login"))
       localStorage.setItem("updatePassword","success")
     }
-
   }
-
 }
 // curl localhost:3000/api/v1/auth/password -X
 // "redirect_url":"http://localhost:3001/"}
@@ -262,8 +256,6 @@ export const settingsAccount=({name,email},imageUrl)=>{
       email:email,
       avatar:imageUrl,
     },option)
-    console.log(res);
-    // data.data
     if (res.status==200) {
       const headers = res.headers
       const data = res.data.data
