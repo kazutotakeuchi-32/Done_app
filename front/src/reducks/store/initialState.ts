@@ -8,7 +8,14 @@ export const initialState ={
     client:null,
     token:null,
     uid:"",
-    actived:false
+    actived:false,
   },
-  learns:{}
+  learns:{
+    nextTasks:[],
+    previousTask:[]
+  },
+  draftLearns:{
+    nextTasks:[],
+    previousTask:[]
+  }
 }

@@ -16,7 +16,7 @@ import { push } from "connected-react-router";
 import  Logo from "../assets/images/done.png";
 import { send, title } from "process";
 import { Hash } from "crypto";
-import { fetchPostDraftLearning } from "../reducks/learns/operations";
+import { fetchPostDraftLearning } from "../reducks/draft_learns/operations";
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 

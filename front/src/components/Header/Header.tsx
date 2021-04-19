@@ -124,22 +124,18 @@ export const Header =():JSX.Element=>{
   const toggleDrawer=(open:boolean):void=>{
     setIsOpen(open)
   }
-
   const handleClick=()=>{
     adminUser?
       dispatch(adminSignOut(user))
     :
       dispatch(signOut(user))
   }
-
-
   const handleMenu = (e)=>{
     setAnchorEl(e.currentTarget)
   }
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   useEffect(()=>{
     if (authUser&&isActived) {
       setIsLogin(true)

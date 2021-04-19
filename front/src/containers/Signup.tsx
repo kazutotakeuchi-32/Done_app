@@ -69,8 +69,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Signup = (props) => {
-  // let token;
-  console.log(props);
 
   const classes = useStyles();
   const dispatch = useDispatch()

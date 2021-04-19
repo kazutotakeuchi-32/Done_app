@@ -44,6 +44,7 @@ export const signOutAction = (users)=>{
     }
   })
 }
+
 export const ADMIN_SIGN_OUT ="ADMIN_SIGN_OUT"
 export const adminSignOutAction = (users)=>{
   return ({
@@ -96,6 +97,17 @@ export const settingsAccoutnAction = (users) => {
   )
 }
 
+export const GET_USER="GET_USER"
+export const getUserAction = (user)=>{
+  return (
+    {
+      type:"GET_USER",
+      Payload:{
+        user
+      }
+    }
+  )
+}
 export const INTIAL_USER ="INTIAL_USER"
 export const initialUserAction=()=>{
   return(

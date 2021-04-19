@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Cookies } from "react-cookie";
 import {push} from "connected-react-router";
 import { signUpAction ,
           signInAction,
@@ -9,10 +8,14 @@ import { signUpAction ,
           updatePasswordAction,
           settingsAccoutnAction,
           adminSignInAction,
-          adminSignOutAction
+          adminSignOutAction,
+          getUserAction
 }
 from "../users/actions";
 import crypto  from "crypto-js";
+import { fetchGetLeaning } from "../learns/actions";
+import { useRadioGroup } from "@material-ui/core";
+import { fetchGetDraftLeaning } from "../draft_learns/actions";
 function userDatas(data,headers,type="SIGN_IN"){
     return  type== "SIGN_IN" || type=="ACTIVEATE_ACCOUNT" || type=="SETTINGS_ACCOUNT"?
         {
@@ -210,7 +213,6 @@ export const updatePassword=(password,confirmPassword,{token,uid,client})=>{
 }
 // curl localhost:3000/api/v1/auth/password -X
 // "redirect_url":"http://localhost:3001/"}
-
 export const activateAccount = ()=>{
   const EP = localStorage.getItem("EP")
   const EE = localStorage.getItem("EE")
@@ -259,6 +261,23 @@ export const settingsAccount=({name,email},imageUrl)=>{
       const user = {...userDatas(data,headers,"SETTINGS_ACCOUNT")}
       dispatch(settingsAccoutnAction(user))
       dispatch(push("/"))
+    }
+  }
+}
+
+export const getUser=(id)=>{
+  return async (dispatch)=>{
+    const res = await axios.get(`http://localhost:3000/api/v1/users/${id}`)
+    if (res.status==200) {
+      const user   = res.data.data.user
+      const learns = res.data.data.learns
+      const draftLearns = res.data.data.draftLearns
+      for (let i = 0; i < learns.nextTasks.length; i++) {
+        learns.previousTasks.push(learns.nextTasks[i])
+      }
+      dispatch(getUserAction(user))
+      dispatch(fetchGetDraftLeaning(draftLearns))
+      dispatch(fetchGetLeaning(learns))
     }
   }
 }

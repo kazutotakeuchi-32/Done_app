@@ -11,6 +11,7 @@ export const fetchPostDraftLearning=(vls)=>{
       'uid':uid
     }
   }
+
   return async (dispatch)=>{
     vls.forEach(async (vl) => {
       const res = await axios.post("http://localhost:3000/api/v1/draft_learns",{
