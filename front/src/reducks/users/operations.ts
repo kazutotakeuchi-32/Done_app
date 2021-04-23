@@ -13,9 +13,9 @@ import { signUpAction ,
 }
 from "../users/actions";
 import crypto  from "crypto-js";
-import { fetchGetLeaning } from "../learns/actions";
+import { fetchGetLeaningAction } from "../learns/actions";
 import { useRadioGroup } from "@material-ui/core";
-import { fetchGetDraftLeaning } from "../draft_learns/actions";
+import { fetchGetDraftLeaningAction } from "../draft_learns/actions";
 function userDatas(data,headers,type="SIGN_IN"){
     return  type== "SIGN_IN" || type=="ACTIVEATE_ACCOUNT" || type=="SETTINGS_ACCOUNT"?
         {
@@ -276,8 +276,8 @@ export const getUser=(id)=>{
         learns.previousTasks.push(learns.nextTasks[i])
       }
       dispatch(getUserAction(user))
-      dispatch(fetchGetDraftLeaning(draftLearns))
-      dispatch(fetchGetLeaning(learns))
+      dispatch(fetchGetDraftLeaningAction(draftLearns))
+      dispatch(fetchGetLeaningAction(learns))
     }
   }
 }

@@ -3,7 +3,7 @@ export const initialState ={
     id: null,
     name:"",
     email:"",
-    // avatar:"",
+    avatar:"",
     admin:false,
     client:null,
     token:null,
@@ -12,10 +12,12 @@ export const initialState ={
   },
   learns:{
     nextTasks:[],
-    previousTask:[]
+    previousTask:[],
+    searchTasks:[]
   },
   draftLearns:{
     nextTasks:[],
-    previousTask:[]
+    previousTask:[],
+    searchTasks:[]
   }
 }

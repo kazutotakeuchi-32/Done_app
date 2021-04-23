@@ -1,11 +1,11 @@
-export const FETCH_POST_DRAFT_LEARNING = "FETCH_POST_DARAFT_LEARNING"
-export const fetchPostDraftLearingAction = ()=>{
+export const FETCH_POST_LEARNING = "FETCH_POST_LEARNING"
+export const fetchPostLearingAction = ()=>{
   return({
-    type: "FETCH_POST_DARAFT_LEARNING"
+    type: "FETCH_POST_LEARNING"
   })
 }
 export const FETCH_GET_LEARNING = "FETCH_GET_LEARNING"
-export const fetchGetLeaning =(learns)=>{
+export const fetchGetLeaningAction =(learns)=>{
   return({
     type:"FETCH_GET_LEARNING",
     Payload:{

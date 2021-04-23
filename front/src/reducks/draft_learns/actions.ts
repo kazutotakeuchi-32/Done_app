@@ -5,11 +5,21 @@ export const fetchPostDraftLearingAction = ()=>{
   })
 }
 export const FETCH_GET_DRFT_LEARNING = "FETCH_GET_DRAFT_LEARNING"
-export const fetchGetDraftLeaning =(draft_learns)=>{
+export const fetchGetDraftLeaningAction =(draftLearns)=>{
   return({
     type:"FETCH_GET_DRAFT_LEARNING",
     Payload:{
-      draft_learns
+      draftLearns
+    }
+  })
+}
+
+export const FETCH_GET_NEXT_TASKS = "FETCH_GET_NEXT_TASKS"
+export const fetchGetNextTasksAction =(nextTasks)=>{
+  return ({
+    type:"FETCH_GET_NEXT_TASKS",
+    Payload:{
+      nextTasks
     }
   })
 }

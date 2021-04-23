@@ -1,6 +1,6 @@
 import axios from "axios"
 import { push } from "connected-react-router"
-import { fetchPostDraftLearingAction } from "./actions"
+import {  fetchGetNextTasksAction} from "./actions"
 
 export const fetchPostDraftLearning=(vls)=>{
   const {uid,client,token} = JSON.parse(localStorage.redux).users
@@ -31,4 +31,21 @@ export const fetchPostDraftLearning=(vls)=>{
     //   push("/")
     // }
   }
+}
+
+export const fetchGetNextTasks = ()=>{
+  const {uid,client,token} = JSON.parse(localStorage.redux).users
+  return async (dispatch)=>{
+    const option={
+      headers:{
+        'client':client,
+        'access-token':token,
+        'uid':uid
+        }
+    }
+   const res= await axios.get("http://localhost:3000/api/v1/draft_learns/todays_task",option)
+   const draftLearns = res.data.data
+    dispatch(fetchGetNextTasksAction(draftLearns))
+  }
+
 }

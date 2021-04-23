@@ -1,8 +1,7 @@
 import axios from "axios"
 import { push } from "connected-react-router"
-import { fetchPostDraftLearingAction } from "./actions"
-
-export const fetchPostDraftLearning=(vls)=>{
+import { fetchPostLearingAction } from "./actions"
+export const fetchPostLearning=(vls)=>{
   const {uid,client,token} = JSON.parse(localStorage.redux).users
   const option={
     headers:{
@@ -13,7 +12,7 @@ export const fetchPostDraftLearning=(vls)=>{
   }
   return async (dispatch)=>{
     vls.forEach(async (vl) => {
-      const res = await axios.post("http://localhost:3000/api/v1/draft_learns",{
+      const res = await axios.post("http://localhost:3000/api/v1/learns",{
         title:vl.title,
         content:vl.content,
         time:vl.time,
@@ -22,11 +21,11 @@ export const fetchPostDraftLearning=(vls)=>{
       if (res.status!=200) {
         return
       }
+
     });
     dispatch(push(""))
-
     // if (res.status==200) {
-    //   dispatch(fetchPostDraftLearingAction())
+    //   dispatch(fetchPostLearingAction())
     //   push("/")
     // }
   }

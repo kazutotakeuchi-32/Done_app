@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { useDispatch,useSelector  } from "react-redux";
+import { fetchGetNextTasks } from "../reducks/draft_learns/operations";
 import { getUser } from "../reducks/users/operations";
 
 export const Mypage = ()=>{
@@ -14,6 +15,11 @@ export const Mypage = ()=>{
       dispatch(getUser(id))
     }
   },[])
+
+  // const handleChange=()=>{
+  // }
+  // const handleChange=()=>{
+  // }
 
   return(
     <div className="">
