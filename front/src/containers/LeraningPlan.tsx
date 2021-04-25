@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch,  useSelector} from 'react-redux'
+import { useDispatch,useSelector} from 'react-redux'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
@@ -77,7 +77,6 @@ export const LearningPlan = () => {
       )
     )
   }
-
   return (
     <div className={classes.box}>
       {8 < nowTime && nowTime < 23 ? (
@@ -121,7 +120,9 @@ export const LearningPlan = () => {
           <div className="" style={{textAlign:"center"}}>登録済みです。</div>
         </Container>
       ) : (
-        <div className="">時間外ですので投稿を行うことができません。</div>
+        <div className="">
+          時間外ですので投稿を行うことができません。
+        </div>
       )}
     </div>
   )
