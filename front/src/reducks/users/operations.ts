@@ -275,6 +275,8 @@ export const getUser=(id)=>{
       for (let i = 0; i < learns.nextTasks.length; i++) {
         learns.previousTasks.push(learns.nextTasks[i])
       }
+
+      console.log(res.data.data.draftLearns);
       dispatch(getUserAction(user))
       dispatch(fetchGetDraftLeaningAction(draftLearns))
       dispatch(fetchGetLeaningAction(learns))

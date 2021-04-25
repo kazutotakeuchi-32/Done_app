@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import { Formik, Form } from 'formik'
-import { Fab, MenuItem, Modal } from '@material-ui/core'
+import {  MenuItem } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -27,10 +27,6 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(6),
     },
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
@@ -41,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
   boild: {
     fontWeight: 800,
   },
+  denceTable:{
+    padding:"20px"
+  }
 }))
+
 type Props = {
   tasks: [
     {
@@ -53,20 +53,42 @@ type Props = {
   ]
   removeTaskId: number
   sendLearningPlan: string
-  handleClick: (e: any) => void
   handleSubmid: (values: any) => void
   onChange: (e: any) => void
 }
 
+
 export const TaskListForm = (props: Props) => {
   const classes = useStyles()
-  const { tasks, handleClick, handleSubmid, onChange, removeTaskId, sendLearningPlan } = props
-
+  const { tasks, handleSubmid, onChange, removeTaskId, sendLearningPlan } = props
   return (
+
     <div className={classes.paper}>
       <Typography component="h1" variant="h5" className={classes.boild}>
-        学習タスクリスト
+        学習タスクリスト(計画)
       </Typography>
+      <Grid container>
+        <Grid item xs={6}></Grid>
+      </Grid>
+      {tasks.length >= 1 && (
+        <Grid item xs={12}>
+          <TextField
+            id="filled-select-currency"
+            select
+            label="Select"
+            value={removeTaskId}
+            onChange={onChange}
+            helperText="取り消したいタスクを入力をして下さい"
+            variant="filled"
+          >
+            {tasks.map((task, index) => (
+              <MenuItem key={index} value={task.id}>
+                タスク番号{task.id}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+      )}
       <Grid container>
         <Grid item xs={6}></Grid>
       </Grid>
@@ -74,40 +96,11 @@ export const TaskListForm = (props: Props) => {
         initialValues={{
           content: sendLearningPlan,
         }}
-        // validationSchema={SignupSchema}
         onSubmit={handleSubmid}
       >
         {({ errors, handleChange, values, touched }) => (
           <Form className={classes.form}>
             <Grid container spacing={2} justify="center">
-              <Grid item xs={6}>
-                <TextField
-                  id="filled-select-currency"
-                  select
-                  label="Select"
-                  // value={}
-                  // onChange={handleChange}
-                  helperText="取り消したいタスクを入力をして下さい"
-                  variant="filled"
-                >
-                  {tasks.map((task,id) => (
-                    <option key={id} value={task.id}>
-                      タスク番号{task.id + 1}
-                    </option>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={6}>
-                <Button
-                  type="submit"
-                  // fullWidth
-                  variant="contained"
-                  color="primary"
-                  // className={classes.submit}
-                >
-                  タスクを削除
-                </Button>
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   variant="outlined"
@@ -138,47 +131,3 @@ export const TaskListForm = (props: Props) => {
     </div>
   )
 }
-
-/* <Grid item xs={12}>
-<TextField
-  id="filled-select-currency"
-  select
-  label="Select"
-  value={removeTaskId}
-
-  onChange={onChange}
-  helperText="取り消したいタスクを入力をして下さい"
-  variant="filled"
->
-  {/* {tasks.map((task, index) => (
-    <MenuItem key={index} value={task.id}>
-      タスク番号{task.id}
-    </MenuItem>
-  ))} */
-// </TextField>
-// </Grid> */}
-
-// {tasks.length != 0 && (
-//   <Grid item xs={12}>
-//     <TextField
-//       id="filled-select-currency"
-//       select
-//       label="Select"
-//       value={removeTaskId}
-//       // defaultValue={}
-//       // onChange={handleChange}
-//       onChange={(e) => {
-//         ""
-//         // setRemoveTaskId(parseInt(e.target.value))
-//       }}
-//       helperText="取り消したいタスクを入力をして下さい"
-//       variant="filled"
-//     >
-//       {/* {tasks.map((task, index) => (
-//         <MenuItem key={index} value={task.id}>
-//           タスク番号{task.id}
-//         </MenuItem>
-//       ))} */}
-//     </TextField>
-//   </Grid>
-// )}

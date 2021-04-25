@@ -2,23 +2,11 @@ import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import  Logo from "../../assets/images/done.png";
-import  Img from "../../assets/images/_h21AB7G.jpg";
-import Avatar from '@material-ui/core/Avatar';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import { useSelector ,useDispatch } from "react-redux";
 import { adminSignOut, signOut } from "../../reducks/users/operations";
-import { Link, Menu, MenuItem } from "@material-ui/core";
+import { HamburgerMenu } from "./HamburgerMenu";
+import { Drawer } from "./Drawer";
+import { Contents } from "./Contents";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,26 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
         padding:"0 "
        },
       // justifyContent:"center"
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-      color:"#333",
-      margin:0,
-      MarginRight:0,
-      display:"none",
-      [theme.breakpoints.down('xs')]:{
-        display:"block",
-        position: "absolute",
-        top: "50%",
-        left: "1.2rem",
-        transform:"translateY(-50%)",
-       },
-      // [theme.breakpoints.up('md')]: {
-      //     backgroundColor: theme.palette.primary.main,
-      //  },
-      // [theme.breakpoints.up('lg')]: {
-      //     backgroundColor: "green",
-      // },
     },
     imgBox:{
       [theme.breakpoints.down('xs')]:{
@@ -129,6 +97,7 @@ export const Header =():JSX.Element=>{
       dispatch(adminSignOut(user))
     :
       dispatch(signOut(user))
+    setIsOpen(false)
   }
   const handleMenu = (e)=>{
     setAnchorEl(e.currentTarget)
@@ -148,16 +117,87 @@ export const Header =():JSX.Element=>{
       <div className={classes.root}>
       <AppBar position="static" className={classes.header}>
         <Toolbar className={classes.root}>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={()=>toggleDrawer(true)}
-            >
-            <MenuIcon />
-          </IconButton>
-          <SwipeableDrawer
+        <Contents
+            anchorEl={anchorEl}
+            isLogin={isLogin}
+            open={open}
+            id={id}
+            avatar={avatar}
+            handleClick={handleClick}
+            handleClose={handleClose}
+            handleMenu={handleMenu}
+          />
+          <HamburgerMenu toggleDrawer={toggleDrawer}/>
+          <Drawer
+            id={id}
+            isOpen={isOpen}
+            isLogin={isLogin}
+            toggleDrawer={toggleDrawer}
+            handleClick={handleClick}
+          />
+        </Toolbar>
+      </AppBar>
+     </div>
+    </div>
+  )
+}
+
+
+
+
+//   <div className={classes.imgBox}>
+//   <img src={Logo} alt="done" className={classes.img}/>
+// </div>
+
+
+//   isLogin ?
+//   <div className={classes.buttonBox}>
+//      <IconButton >
+//       <SvgIcon  color="action">
+//         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+//       </SvgIcon>
+//     </IconButton>
+//     <IconButton >
+//       <NotificationsIcon />
+//     </IconButton>
+//     <IconButton onClick={handleMenu}>
+//       {
+//         avatar!="" ?
+//           <Avatar className={classes.small} alt="Remy Sharp"  src={avatar} />
+//         :
+//           <AccountCircle/>
+//       }
+//     </IconButton>
+//     <Menu
+//       id="menu-appbar"
+//       anchorEl={anchorEl}
+//       anchorOrigin={{
+//         vertical: 'top',
+//         horizontal: 'right',
+//       }}
+//       keepMounted
+//       transformOrigin={{
+//         vertical: 'top',
+//         horizontal: 'right',
+//       }}
+//       open={open}
+//       onClose={handleClose}
+//     >
+//       <MenuItem onClick={handleClose} ><Link href={`/users/${id}`}>マイページ</Link></MenuItem>
+//       <MenuItem onClick={handleClose}><Link  href="/users/setting">アカウント設定</Link></MenuItem>
+//       <MenuItem onClick={handleClick}>ログアウト</MenuItem>
+//     </Menu>
+//   </div>
+// :
+//   <div className={classes.buttonBox}>
+//      <Button  className={classes.button} href="/signup">signup</Button>
+//      <Button  className={classes.button} href="/login">Login</Button>
+//   </div>
+// }
+
+
+
+ /* <SwipeableDrawer
             open={isOpen}
             onClose={()=>toggleDrawer(false)}
             onOpen={()=>toggleDrawer(true)}
@@ -190,58 +230,4 @@ export const Header =():JSX.Element=>{
                 }
                 <Divider/>
               </List>
-          </SwipeableDrawer>
-          <div className={classes.imgBox}>
-            <img src={Logo} alt="done" className={classes.img}/>
-          </div>
-          {
-            isLogin ?
-            <div className={classes.buttonBox}>
-               <IconButton >
-                <SvgIcon  color="action">
-                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-                </SvgIcon>
-              </IconButton>
-              <IconButton >
-                <NotificationsIcon />
-              </IconButton>
-              <IconButton onClick={handleMenu}>
-                {
-                  avatar!="" ?
-                    <Avatar className={classes.small} alt="Remy Sharp"  src={avatar} />
-                  :
-                    <AccountCircle/>
-                }
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose} ><Link href={`/users/${id}`}>マイページ</Link></MenuItem>
-                <MenuItem onClick={handleClose}><Link  href="/users/setting">アカウント設定</Link></MenuItem>
-                <MenuItem onClick={handleClick}>ログアウト</MenuItem>
-              </Menu>
-            </div>
-          :
-            <div className={classes.buttonBox}>
-               <Button  className={classes.button} href="/signup">signup</Button>
-               <Button  className={classes.button} href="/login">Login</Button>
-            </div>
-          }
-        </Toolbar>
-      </AppBar>
-     </div>
-    </div>
-  )
-}
+          </SwipeableDrawer> */

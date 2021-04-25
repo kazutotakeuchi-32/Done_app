@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useDispatch,useSelector  } from "react-redux";
-import { fetchGetNextTasks } from "../reducks/draft_learns/operations";
+import {fetchGetDraftNextTasks} from "../reducks/draft_learns/operations";
 import { getUser } from "../reducks/users/operations";
 
 export const Mypage = ()=>{

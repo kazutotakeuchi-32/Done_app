@@ -14,12 +14,13 @@ export const fetchGetDraftLeaningAction =(draftLearns)=>{
   })
 }
 
-export const FETCH_GET_NEXT_TASKS = "FETCH_GET_NEXT_TASKS"
-export const fetchGetNextTasksAction =(nextTasks)=>{
+// fetchDraftGetNextTasks
+export const FETCH_GET_DRAFT_NEXT_TASKS = "FETCH_GET_DRAFT_NEXT_TASKS"
+export const fetchGetDraftNextTasksAction =(draftLearns)=>{
   return ({
-    type:"FETCH_GET_NEXT_TASKS",
+    type:"FETCH_GET_DRAFT_NEXT_TASKS",
     Payload:{
-      nextTasks
+      draftLearns
     }
   })
 }

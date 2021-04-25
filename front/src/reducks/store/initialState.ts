@@ -12,12 +12,12 @@ export const initialState ={
   },
   learns:{
     nextTasks:[],
-    previousTask:[],
+    previousTasks:[],
     searchTasks:[]
   },
   draftLearns:{
     nextTasks:[],
-    previousTask:[],
+    previousTasks:[],
     searchTasks:[]
   }
 }

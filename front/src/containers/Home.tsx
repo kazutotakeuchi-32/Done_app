@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch,useSelector  } from "react-redux";
+
 import Typography from '@material-ui/core/Typography';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Container, Grid } from "@material-ui/core";
+import { getUser } from "../reducks/users/operations";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -12,8 +15,18 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
 }));
+
 export const Home = ()=>{
-  const classes = useStyles()
+  const classes  = useStyles()
+  const dispatch = useDispatch()
+  const userSelector  = state=>state.users
+  const {id}=useSelector(userSelector)
+
+  // const
+  useEffect(()=>{
+    dispatch(getUser(id))
+  },[])
+
   return(
     <Container  >
       <Grid container >
