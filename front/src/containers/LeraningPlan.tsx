@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+
 export const LearningPlan = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -79,7 +80,7 @@ export const LearningPlan = () => {
   }
   return (
     <div className={classes.box}>
-      {8 < nowTime && nowTime < 23 ? (
+      {8 < nowTime && nowTime < 10 ? (
         nextTasks.data.length == 0?
         <>
           <Container component="main" maxWidth="md">

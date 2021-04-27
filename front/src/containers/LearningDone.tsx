@@ -62,7 +62,6 @@ export const LearningDone = () => {
   const [content, setContent] = useState('')
   const classes = useStyles()
 
-
   useEffect(() => {
     dispatch(fetchGetDraftNextTasks())
     dispatch(fetchGetLearnNextTasks())
@@ -74,7 +73,7 @@ export const LearningDone = () => {
 
   return (
     <div className={classes.box}>
-      {17 < nowTime && nowTime < 23 ? (
+      {17 < nowTime && nowTime < 19 ? (
         <Container component="main" maxWidth="md">
           <CssBaseline />
           <div className={classes.paper}>

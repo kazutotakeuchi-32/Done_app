@@ -135,7 +135,6 @@ export const adminSignOut=({uid,client,token})=>{
   }
   return async(dispatch)=>{
    const res= await axios.delete("http://localhost:3000/api/v1/admin/sign_out",option)
-    console.log(res);
     const user ={
       id: null,
       name:"",
@@ -266,6 +265,10 @@ export const settingsAccount=({name,email},imageUrl)=>{
 }
 
 export const getUser=(id)=>{
+  const {id:myId} = JSON.parse(localStorage.redux).users
+  if (localStorage.getItem("anotherUser")) {
+    localStorage.removeItem("anotherUser")
+  }
   return async (dispatch)=>{
     const res = await axios.get(`http://localhost:3000/api/v1/users/${id}`)
     if (res.status==200) {
@@ -275,8 +278,14 @@ export const getUser=(id)=>{
       for (let i = 0; i < learns.nextTasks.length; i++) {
         learns.previousTasks.push(learns.nextTasks[i])
       }
-
-      console.log(res.data.data.draftLearns);
+      if (myId!=id){
+        localStorage.setItem("anotherUser",JSON.stringify({
+          id:user.id,
+          name:user.name,
+          avatar: user.avatar ? user.avatar : "" ,
+          admin: user.admin
+         }))
+       }
       dispatch(getUserAction(user))
       dispatch(fetchGetDraftLeaningAction(draftLearns))
       dispatch(fetchGetLeaningAction(learns))
