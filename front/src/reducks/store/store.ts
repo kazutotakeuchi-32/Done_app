@@ -21,3 +21,16 @@ export const configureStore=(history)=>
       thunk
     )
   )
+
+// export const configureStore=(history)=>
+//   createStore(
+//     combineReducers({
+//       users:UsersReducer,
+//       router:connectRouter(history)
+//     }),
+//     applyMiddleware(
+//       routerMiddleware(history),
+//       logger,
+//       thunk
+//     )
+//   )

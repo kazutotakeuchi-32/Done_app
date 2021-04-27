@@ -15,10 +15,11 @@ const store = configureStore(history)
 // const customContext = React.createContext()
 render(
   <Provider store={store} >
-    <ConnectedRouter history={history} context={store}>
-      <CookiesProvider>
+    <ConnectedRouter history={history} >
+      <div className=""></div>
+      {/* <CookiesProvider>
         <App />
-      </CookiesProvider>
+      </CookiesProvider> */}
     </ConnectedRouter>
   </Provider>
   ,
