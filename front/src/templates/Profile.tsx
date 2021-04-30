@@ -50,8 +50,11 @@ type Props = {
 }
 
 export const Profile = (props: Props) => {
+
   const { imageUrl, anotherUser, anotherUserString, pushSetting } = props
   const classes = useStyles()
+  const userSelector = state=>state.users
+  const myName = useSelector(userSelector).name
   return (
     <Grid item sm={5} xs={12} style={{}} justify="center">
       <div
@@ -89,7 +92,7 @@ export const Profile = (props: Props) => {
           }}
         >
           <Typography component="h3" variant="h5" align="center">
-            {anotherUser.name ? anotherUser.name : name}
+            {anotherUser.name ? anotherUser.name : myName}
           </Typography>
           <div
             className=""

@@ -22,6 +22,7 @@ export const configureStore=(history)=>
     )
   )
 
+// redux-localstorage 導入前
 // export const configureStore=(history)=>
 //   createStore(
 //     combineReducers({

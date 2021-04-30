@@ -23,3 +23,13 @@ export const fetchGetLearnNextTasksAction =(learns)=>{
     }
   })
 }
+
+export const FETCH_GET_LEARN_PREVIOUS_TASKS = "FETCH_GET_LEARN_PREVIOUS_TASKS"
+export const fetchGetLearnPeviousTasksAction = (learns)=>{
+  return ({
+    type:"FETCH_GET_LEARN_PREVIOUS_TASKS",
+    Payload:{
+      learns
+    }
+  })
+}

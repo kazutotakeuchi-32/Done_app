@@ -9,17 +9,15 @@ import { createBrowserHistory } from "history";
 import { ConnectedRouter} from "connected-react-router";
 import { configureStore } from './reducks/store/store';
 import { CookiesProvider } from "react-cookie";
-const history = createBrowserHistory()
-const store = configureStore(history)
+const story = createBrowserHistory()
+const store = configureStore(story)
 
-// const customContext = React.createContext()
 render(
   <Provider store={store} >
-    <ConnectedRouter history={history} >
-      <div className=""></div>
-      {/* <CookiesProvider>
+    <ConnectedRouter history={story} >
+      <CookiesProvider>
         <App />
-      </CookiesProvider> */}
+      </CookiesProvider>
     </ConnectedRouter>
   </Provider>
   ,

@@ -67,7 +67,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Signup = (props) => {
-
   const classes = useStyles();
   const dispatch = useDispatch()
   const userSelector = state=>state.users.actived

@@ -24,3 +24,13 @@ export const fetchGetDraftNextTasksAction =(draftLearns)=>{
     }
   })
 }
+
+export const FETCH_GET_DRAFT_PREVIOUS_TASKS = "FETCH_GET_DRAFT_PREVIOUS_TASKS"
+export const fetchGetDraftPeviousTasksAction = (draftLearns)=>{
+  return ({
+    type:"FETCH_GET_DRAFT_PREVIOUS_TASKS",
+    Payload:{
+      draftLearns
+    }
+  })
+}

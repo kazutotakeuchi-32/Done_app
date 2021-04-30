@@ -1,5 +1,5 @@
 import { initialState } from "../store/initialState";
-import { FETCH_GET_DRFT_LEARNING,  FETCH_GET_DRAFT_NEXT_TASKS,  FETCH_POST_DRAFT_LEARNING } from "./actions";
+import { FETCH_GET_DRFT_LEARNING,  FETCH_GET_DRAFT_NEXT_TASKS,  FETCH_POST_DRAFT_LEARNING, FETCH_GET_DRAFT_PREVIOUS_TASKS } from "./actions";
 
 export const DraftLearnsReducer = (state=initialState.draftLearns,action)=>{
   switch (action.type) {
@@ -15,6 +15,13 @@ export const DraftLearnsReducer = (state=initialState.draftLearns,action)=>{
       return {
        ... state ,
        nextTasks:action.Payload.draftLearns.nextTasks,
+      }
+    case FETCH_GET_DRAFT_PREVIOUS_TASKS:
+      console.log(action.Payload.draftLearns);
+
+      return {
+        ...state,
+        previousTasks:action.Payload.draftLearns,
       }
     default:
       return {...state}

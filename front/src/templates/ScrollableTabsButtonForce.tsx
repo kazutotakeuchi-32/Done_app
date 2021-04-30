@@ -49,7 +49,7 @@ const Styles = makeStyles((theme: Theme) => ({
           textColor="primary"
           aria-label="scrollable force tabs example"
         >
-          <Tab label="グラフ"  {...a11yProps(0)} />
+          <Tab label="分析"  {...a11yProps(0)} />
           <Tab label="今日のタスク"  {...a11yProps(1)} />
           <Tab label="タイムライン" {...a11yProps(2)} />
           <Tab label="DM" {...a11yProps(3)} />

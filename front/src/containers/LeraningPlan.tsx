@@ -80,7 +80,7 @@ export const LearningPlan = () => {
   }
   return (
     <div className={classes.box}>
-      {8 < nowTime && nowTime < 10 ? (
+      {8 < nowTime && nowTime < 24 ? (
         nextTasks.data.length == 0?
         <>
           <Container component="main" maxWidth="md">

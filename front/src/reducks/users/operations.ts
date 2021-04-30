@@ -13,9 +13,10 @@ import { signUpAction ,
 }
 from "../users/actions";
 import crypto  from "crypto-js";
-import { fetchGetLeaningAction } from "../learns/actions";
+import { fetchGetLeaningAction, fetchGetLearnNextTasksAction, fetchGetLearnPeviousTasksAction } from "../learns/actions";
 import { useRadioGroup } from "@material-ui/core";
-import { fetchGetDraftLeaningAction } from "../draft_learns/actions";
+import { fetchGetDraftLeaningAction, fetchGetDraftNextTasksAction, fetchGetDraftPeviousTasksAction } from "../draft_learns/actions";
+import { fetchGetDraftNextTasks } from "../draft_learns/operations";
 function userDatas(data,headers,type="SIGN_IN"){
     return  type== "SIGN_IN" || type=="ACTIVEATE_ACCOUNT" || type=="SETTINGS_ACCOUNT"?
         {
@@ -290,5 +291,40 @@ export const getUser=(id)=>{
       dispatch(fetchGetDraftLeaningAction(draftLearns))
       dispatch(fetchGetLeaningAction(learns))
     }
+  }
+}
+
+export const setBarGraph = (date,aggregationType,id)=>{
+  const year   = date.getFullYear()
+  const month  = date.getMonth()+1
+  const day    = date.getDate()
+  return async (dispatch)=>{
+   const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
+   const learns=res.data.data.learns.search_tasks
+   const draftLearns=res.data.data.draftLearns.search_tasks
+   dispatch(fetchGetDraftPeviousTasksAction(draftLearns))
+   dispatch(fetchGetLearnPeviousTasksAction(learns))
+  }
+
+}
+export const setPieGraph = (date,aggregationType,id)=>{
+  const year   = date.getFullYear()
+  const month  = date.getMonth()+1
+  const day    = date.getDate()
+  return async (dispatch)=>{
+   const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/learn_search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
+   const learnNextTasks=res.data.data.learns.search_tasks
+   const draftNextTasks=res.data.data.draftLearns.search_tasks
+
+   const learns={nextTasks:{
+     data:learnNextTasks.data,
+     title:learnNextTasks.title
+   }}
+   const draftLerans={nextTasks:{
+     data:draftNextTasks.data,
+     title:draftNextTasks.title
+   }}
+   dispatch(fetchGetDraftNextTasksAction(draftLerans))
+   dispatch(fetchGetLearnNextTasksAction(learns))
   }
 }

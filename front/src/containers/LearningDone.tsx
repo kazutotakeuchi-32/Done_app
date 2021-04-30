@@ -73,7 +73,7 @@ export const LearningDone = () => {
 
   return (
     <div className={classes.box}>
-      {17 < nowTime && nowTime < 19 ? (
+      {10 < nowTime && nowTime < 24 ? (
         <Container component="main" maxWidth="md">
           <CssBaseline />
           <div className={classes.paper}>

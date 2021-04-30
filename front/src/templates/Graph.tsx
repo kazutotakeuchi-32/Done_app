@@ -1,6 +1,4 @@
 import React from "react"
-import { useDispatch,useSelector  } from "react-redux";
-import { push } from 'connected-react-router'
 import { TabPanel } from "./TabPanel";
 import { BarGraph } from "../components/Graph/BarGraph";
 import { PieGraph } from "../components/Graph/PieGraph";

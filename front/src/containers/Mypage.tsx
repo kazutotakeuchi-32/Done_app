@@ -6,6 +6,7 @@ import { push } from 'connected-react-router'
 import { Profile } from "../templates/Profile";
 import { ScrollableTabsButtonForce } from "../templates/ScrollableTabsButtonForce";
 
+
 const useStyles = makeStyles((theme) => ({
   '@global': {
     body: {
@@ -23,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
       border: 'none',
       padding: '30px 0',
       boxShadow:"none",
-      marginTop: theme.spacing(6),
+      margin:"0"
+      // marginTop: theme.spacing(6),
     }
   }
 }))
@@ -66,9 +68,6 @@ export const Mypage = ()=>{
     </Container>
   )
 }
-
-
-
 
 {/* <div className="" style={{
             padding:"20px",
