@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch,useSelector  } from "react-redux";
 
 import Typography from '@material-ui/core/Typography';
-
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Container, Grid } from "@material-ui/core";
 import { getUser } from "../reducks/users/operations";
 import { LinearProgress } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
