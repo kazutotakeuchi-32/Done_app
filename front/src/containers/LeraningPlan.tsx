@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch,useSelector} from 'react-redux'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles'
@@ -8,6 +8,8 @@ import { fetchPostDraftLearning } from '../reducks/draft_learns/operations'
 import { TaskListForm } from '../templates/TaskListForm'
 import { ModalForm } from '../templates/modalForm'
 import { PreviewButton } from '../templates/PreviewButton'
+import { LinearProgress } from '@material-ui/core'
+import { getUser } from "../reducks/users/operations";
 
 const SignupSchema = yup.object().shape({
   title: yup.string().required('This field is required.'),
@@ -35,11 +37,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const LearningPlan = () => {
+  const [isLoading,setIsLoading] = useState(false)
   const classes = useStyles()
   const dispatch = useDispatch()
   const nowTime = new Date().getHours()
   const useLearns = (state) => state.learns
+  const useUsers = state => state.users
   const {nextTasks} = useSelector(useLearns)
+  const {id} = useSelector(useUsers)
   // 送信フォーム
   const [removeTaskId, setRemoveTaskId] = useState(0)
   const [tasks, setTasks] = useState<any>([])
@@ -47,6 +52,14 @@ export const LearningPlan = () => {
   // モーダル
   const [taskId, setTaskId] = useState(0)
   const [open, setOpen] = React.useState(false)
+
+  useEffect(()=>{
+    setIsLoading(true)
+    dispatch(getUser(id))
+    setTimeout(()=>{
+      setIsLoading(false)
+    },1000)
+  },[])
 
   const handleSubmidPreview = (vls, { resetForm }) => {
     setTaskId((vls) => {
@@ -79,7 +92,12 @@ export const LearningPlan = () => {
     )
   }
   return (
-    <div className={classes.box}>
+    <>
+      {
+        isLoading?
+        <LinearProgress/>
+        :
+        <div className={classes.box}>
       {8 < nowTime && nowTime < 24 ? (
         nextTasks.data.length == 0?
         <>
@@ -126,5 +144,8 @@ export const LearningPlan = () => {
         </div>
       )}
     </div>
+      }
+    </>
+
   )
 }

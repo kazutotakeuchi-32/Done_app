@@ -1,11 +1,11 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch,useSelector  } from "react-redux";
 import { Container, CssBaseline, Grid, hexToRgb, makeStyles, Typography ,Theme } from '@material-ui/core'
 import { getUser } from "../reducks/users/operations";
 import { push } from 'connected-react-router'
 import { Profile } from "../templates/Profile";
 import { ScrollableTabsButtonForce } from "../templates/ScrollableTabsButtonForce";
-
+import { LinearProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -37,11 +37,17 @@ export const Mypage = ()=>{
   const learnSelector = state=>state.learns
   const {nextTasks,previousTasks} = useSelector(learnSelector)
   const {id,name,avatar}=useSelector(userSelector)
+  const[isLoading,setIsLoading]=useState(false)
   useEffect(()=>{
+    setIsLoading(true)
     if (/users\/[0-1]/.test(location.href)!=null ) {
       const id =location.href.split("/")[4]
       dispatch(getUser(id))
     }
+    setTimeout(()=>{
+      setIsLoading(false)
+    },1000)
+
   },[location.href])
   const anotherUserString =localStorage.getItem("anotherUser")
   let anotherUser:any={}
@@ -51,22 +57,33 @@ export const Mypage = ()=>{
   const imageUrl = anotherUser.avatar == "" ||  anotherUser.avatar ? anotherUser.avatar : avatar
 
   return(
-    <Container  component="main" maxWidth="lg" className={classes.paper}>
-      <CssBaseline />
-      <h1>{anotherUser.name ?  `${anotherUser.name}の`:""}マイページ</h1>
-      <Grid container>
-        <Profile
-          imageUrl={imageUrl}
-          anotherUser={anotherUser}
-          anotherUserString={anotherUserString}
-          pushSetting={()=>dispatch(push("/users/setting"))}
-        />
-        <Grid item  sm={7} xs={12} style={{padding:0}}>
-             <ScrollableTabsButtonForce/>
+      <>
+      {
+        isLoading?
+        <div style={{margin:"auto"}}>
+           <LinearProgress />
+        </div>
+
+        :
+        <Container  component="main" maxWidth="lg" className={classes.paper}>
+        <CssBaseline />
+        <h1>{anotherUser.name ?  `${anotherUser.name}の`:""}マイページ</h1>
+        <Grid container>
+          <Profile
+            imageUrl={imageUrl}
+            anotherUser={anotherUser}
+            anotherUserString={anotherUserString}
+            pushSetting={()=>dispatch(push("/users/setting"))}
+          />
+          <Grid item  sm={7} xs={12} style={{padding:0}}>
+              <ScrollableTabsButtonForce/>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
-  )
+        </Container>
+      }
+      </>
+        )
+
 }
 
 {/* <div className="" style={{

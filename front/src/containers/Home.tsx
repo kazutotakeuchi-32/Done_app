@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch,useSelector  } from "react-redux";
 
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Container, Grid } from "@material-ui/core";
 import { getUser } from "../reducks/users/operations";
+import { LinearProgress } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -21,14 +22,25 @@ export const Home = ()=>{
   const dispatch = useDispatch()
   const userSelector  = state=>state.users
   const {id}=useSelector(userSelector)
-
+  const[isLoading,setIsLoading]=useState(false)
   // const
   useEffect(()=>{
+    setIsLoading(true)
     dispatch(getUser(id))
+    setTimeout(()=>{
+      setIsLoading(false)
+    },1000)
   },[])
 
   return(
-    <Container  >
+    <>
+      {
+        isLoading?
+        <div  style={{margin:"auto"}}>
+          <LinearProgress/>
+        </div>
+        :
+        <Container  >
       <Grid container >
         <Grid item sm={6}  xs={12} >
             {/* <div className={classes.toolbar} /> */}
@@ -75,6 +87,9 @@ export const Home = ()=>{
           </Grid>
           </Grid>
       </Container>
+      }
+    </>
+
   )
 
 }

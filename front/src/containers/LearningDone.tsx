@@ -1,9 +1,9 @@
+import { LinearProgress } from '@material-ui/core'
 import { Button, Container, CssBaseline, makeStyles, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchGetDraftNextTasks} from '../reducks/draft_learns/operations'
 import { fetchGetLearnNextTasks } from '../reducks/learns/operations'
-
 import { fetchPostLearning } from '../reducks/learns/operations'
 import { ModalForm } from '../templates/modalForm'
 import { DenseTable } from '../templates/Table'
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const LearningDone = () => {
+  const [isLoading,setIsLoading] = useState(false)
   const nowTime = new Date().getHours()
   const dispatch = useDispatch()
   const useDraftLearns = (state) => state.draftLearns
@@ -63,98 +64,108 @@ export const LearningDone = () => {
   const classes = useStyles()
 
   useEffect(() => {
+    setIsLoading(true)
     dispatch(fetchGetDraftNextTasks())
     dispatch(fetchGetLearnNextTasks())
+    setTimeout(()=>{
+      setIsLoading(false)
+    },1000)
   }, [])
-
   const onSubmit = () => {
     dispatch(fetchPostLearning(nextTasks.data))
   }
 
   return (
-    <div className={classes.box}>
-      {10 < nowTime && nowTime < 24 ? (
-        <Container component="main" maxWidth="md">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Typography component="h1" variant="h5" className={classes.boild}>
-              学習タスクリスト(振り返り)
-            </Typography>
-            <Typography component="p" className={classes.boild}>
-              今日の学習の振り返りを行いましょう。
-            </Typography>
-            {nextTasks.data.length != 0 ? (
-              learnNextTask.data.length ==0 ?
+    <>
+      {
+        isLoading?
+        <LinearProgress/>
+        :
+        <div className={classes.box}>
+        {10 < nowTime && nowTime < 24 ? (
+          <Container component="main" maxWidth="md">
+            <CssBaseline />
+            <div className={classes.paper}>
+              <Typography component="h1" variant="h5" className={classes.boild}>
+                学習タスクリスト(振り返り)
+              </Typography>
+              <Typography component="p" className={classes.boild}>
+                今日の学習の振り返りを行いましょう。
+              </Typography>
+              {nextTasks.data.length != 0 ? (
+                learnNextTask.data.length ==0 ?
 
-              <DenseTable
-                draftNextTasks={nextTasks}
-                handleClick={(e) => {
-                  const setTask = nextTasks.data.filter((n) => n.id == e.target.id)[0]
-                  setId(setTask.id)
-                  setTitle(setTask.title)
-                  setSubject(setTask.subject)
-                  setTime(setTask.time)
-                  setContent(setTask.content)
-                  setOpen(true)
-                }}
-                handleCheaked={(e, row) => {
-                  setIsCheacks((state) => {
-                    return state.map((s) => {
-                      if (row.id == s.id) {
-                        return { id: s.id, checked: e.target.checked }
-                      }
-                      return s
+                <DenseTable
+                  draftNextTasks={nextTasks}
+                  handleClick={(e) => {
+                    const setTask = nextTasks.data.filter((n) => n.id == e.target.id)[0]
+                    setId(setTask.id)
+                    setTitle(setTask.title)
+                    setSubject(setTask.subject)
+                    setTime(setTask.time)
+                    setContent(setTask.content)
+                    setOpen(true)
+                  }}
+                  handleCheaked={(e, row) => {
+                    setIsCheacks((state) => {
+                      return state.map((s) => {
+                        if (row.id == s.id) {
+                          return { id: s.id, checked: e.target.checked }
+                        }
+                        return s
+                      })
                     })
-                  })
-                }}
-              />
-              :
-              <div className="">
-                登録済みです。
-              </div>
-            ) : (
-              <div className="">タスクが登録されていません。</div>
-            )}
+                  }}
+                />
+                :
+                <div className="">
+                  登録済みです。
+                </div>
+              ) : (
+                <div className="">タスクが登録されていません。</div>
+              )}
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={onSubmit}
-              className={classes.submit}
-              disabled={isCheacks.map((c) => c.checked).every((e) => e) ? false : true}
-            >
-              送信
-            </Button>
-          </div>
-          <ModalForm
-            open={open}
-            tasks={{ id: id, title: title, subject: subject, time: time, content: content }}
-            handleOpen={() => {
-              setOpen(true)
-            }}
-            handleClose={() => {
-              setOpen(false)
-            }}
-            handleSubmid={(vl) => {
-              nextTasks.data = nextTasks.data.map((task) => {
-                if (task.id == vl.id) {
-                  task.title = vl.title
-                  task.subject = vl.subject
-                  task.content = vl.content
-                  task.time = vl.time
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={onSubmit}
+                className={classes.submit}
+                disabled={isCheacks.map((c) => c.checked).every((e) => e) ? false : true}
+              >
+                送信
+              </Button>
+            </div>
+            <ModalForm
+              open={open}
+              tasks={{ id: id, title: title, subject: subject, time: time, content: content }}
+              handleOpen={() => {
+                setOpen(true)
+              }}
+              handleClose={() => {
+                setOpen(false)
+              }}
+              handleSubmid={(vl) => {
+                nextTasks.data = nextTasks.data.map((task) => {
+                  if (task.id == vl.id) {
+                    task.title = vl.title
+                    task.subject = vl.subject
+                    task.content = vl.content
+                    task.time = vl.time
+                    return task
+                  }
                   return task
-                }
-                return task
-              })
-              setOpen(false)
-            }}
-          />
-        </Container>
-      ) : (
-        <div className="">時間外なので投稿ができません</div>
-      )}
-    </div>
+                })
+                setOpen(false)
+              }}
+            />
+          </Container>
+        ) : (
+          <div className="">時間外なので投稿ができません</div>
+        )}
+      </div>
+      }
+    </>
   )
 }
