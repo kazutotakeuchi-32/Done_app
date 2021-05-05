@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '30px 50px',
     [theme.breakpoints.down('xs')]: {
       border: 'none',
-      padding: '30px 30px',
+      padding: '30px 0',
       marginTop: theme.spacing(6),
     },
   },
@@ -65,8 +65,8 @@ export const LearningDone = () => {
 
   useEffect(() => {
     setIsLoading(true)
-    dispatch(fetchGetDraftNextTasks())
-    dispatch(fetchGetLearnNextTasks())
+    dispatch(fetchGetDraftNextTasks(null))
+    dispatch(fetchGetLearnNextTasks(null))
     setTimeout(()=>{
       setIsLoading(false)
     },1000)
@@ -75,6 +75,7 @@ export const LearningDone = () => {
     dispatch(fetchPostLearning(nextTasks.data))
   }
 
+
   return (
     <>
       {
@@ -82,7 +83,7 @@ export const LearningDone = () => {
         <LinearProgress/>
         :
         <div className={classes.box}>
-        {10 < nowTime && nowTime < 24 ? (
+        {9 < nowTime && nowTime < 24 ? (
           <Container component="main" maxWidth="md">
             <CssBaseline />
             <div className={classes.paper}>
@@ -97,6 +98,7 @@ export const LearningDone = () => {
 
                 <DenseTable
                   draftNextTasks={nextTasks}
+                  isCheckBox={true}
                   handleClick={(e) => {
                     const setTask = nextTasks.data.filter((n) => n.id == e.target.id)[0]
                     setId(setTask.id)
@@ -159,6 +161,8 @@ export const LearningDone = () => {
                 })
                 setOpen(false)
               }}
+              submidText={"変更"}
+              isReadonly={false}
             />
           </Container>
         ) : (

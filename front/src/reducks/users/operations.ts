@@ -239,7 +239,6 @@ export const activateAccount = ()=>{
     }
   }
 }
-
 export const settingsAccount=({name,email},imageUrl)=>{
   const {uid,client,token} = JSON.parse(localStorage.redux).users
   const option={
@@ -276,6 +275,7 @@ export const getUser=(id)=>{
       const user   = res.data.data.user
       const learns = res.data.data.learns
       const draftLearns = res.data.data.draftLearns
+
       for (let i = 0; i < learns.nextTasks.length; i++) {
         learns.previousTasks.push(learns.nextTasks[i])
       }
@@ -315,7 +315,6 @@ export const setPieGraph = (date,aggregationType,id)=>{
    const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/learn_search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
    const learnNextTasks=res.data.data.learns.search_tasks
    const draftNextTasks=res.data.data.draftLearns.search_tasks
-
    const learns={nextTasks:{
      data:learnNextTasks.data,
      title:learnNextTasks.title

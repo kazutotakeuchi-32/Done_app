@@ -24,7 +24,6 @@ export const fetchPostDraftLearning=(vls)=>{
       }
     });
     dispatch(push(""))
-
     // if (res.status==200) {
     //   dispatch(fetchPostDraftLearingAction())
     //   push("/")
@@ -32,17 +31,10 @@ export const fetchPostDraftLearning=(vls)=>{
   }
 }
 
-export const fetchGetDraftNextTasks = ()=>{
-  const {uid,client,token} = JSON.parse(localStorage.redux).users
+export const fetchGetDraftNextTasks = (id:number|null)=>{
+  const userId:number =  id ?  id : JSON.parse(localStorage.redux).users.id
   return async (dispatch)=>{
-    const option={
-      headers:{
-        'client':client,
-        'access-token':token,
-        'uid':uid
-        }
-    }
-   const res= await axios.get("http://localhost:3000/api/v1/draft_learns/todays_task",option)
+   const res= await axios.get(`http://localhost:3000/api/v1/draft_learns/todays_task?id=${userId}`)
    const draftLearns = res.data.data
     dispatch(fetchGetDraftNextTasksAction(draftLearns))
   }

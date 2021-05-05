@@ -71,13 +71,15 @@ type Props = {
     content:string
   }
   open: boolean
+  submidText:string
+  isReadonly:boolean
   handleOpen: () => void
   handleClose: () => void
   handleSubmid: (vls: any, { resetForm: any }) => void
 }
 
 export const ModalForm = (props: Props) => {
-  const { tasks:{id,title,subject,time,content}, open, handleOpen, handleClose, handleSubmid } = props
+  const { tasks:{id,title,subject,time,content}, open, handleOpen, handleClose, handleSubmid ,submidText,isReadonly} = props
   const classes = useStyles()
   function getModalStyle() {
     const top = 50
@@ -132,6 +134,7 @@ export const ModalForm = (props: Props) => {
                       label="title"
                       autoFocus
                       placeholder="学習内容を端的にまとめてください"
+                      disabled={isReadonly? true :false}
                       // helperText={
                       //   errors.name && touched.name
                       //     ? errors.name
@@ -151,6 +154,7 @@ export const ModalForm = (props: Props) => {
                       label="subject"
                       autoFocus
                       placeholder="科目を入力をしてください"
+                      disabled={isReadonly? true :false}
                       // helperText={
                       //   errors.name && touched.name
                       //     ? errors.name
@@ -171,6 +175,7 @@ export const ModalForm = (props: Props) => {
                       type="number"
                       id="time"
                       autoComplete="time"
+                      disabled={isReadonly? true :false}
                       // helperText={
                       //   errors.password && touched.password
                       //     ? errors.password
@@ -191,6 +196,7 @@ export const ModalForm = (props: Props) => {
                       label="Content"
                       name="content"
                       autoComplete="content"
+                      disabled={isReadonly? true :false}
                       // helperText={
                       //   errors.email && touched.email ? errors.email : null
                       // }
@@ -198,9 +204,13 @@ export const ModalForm = (props: Props) => {
                   </Grid>
                   <Grid item xs={12}></Grid>
                 </Grid>
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                  追加
-                </Button>
+                {
+                  !isReadonly &&
+                  <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                    {submidText}
+                  </Button>
+                }
+
               </Form>
             )}
           </Formik>

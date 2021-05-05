@@ -1,5 +1,6 @@
 import axios from "axios"
 import { push } from "connected-react-router"
+import { number } from "yup/lib/locale"
 import { fetchPostLearingAction ,fetchGetLearnNextTasksAction} from "./actions"
 export const fetchPostLearning=(vls)=>{
   const {uid,client,token,id} = JSON.parse(localStorage.redux).users
@@ -31,18 +32,13 @@ export const fetchPostLearning=(vls)=>{
   }
 }
 
-export const  fetchGetLearnNextTasks = () =>{
-  const {uid,client,token} = JSON.parse(localStorage.redux).users
+export const  fetchGetLearnNextTasks = (id:number|null) =>  {
+  const userId:number = id ? id :  JSON.parse(localStorage.redux).users.id
   return async (dispatch)=>{
-    const option={
-      headers:{
-        'client':client,
-        'access-token':token,
-        'uid':uid
-        }
-    }
-   const res= await axios.get("http://localhost:3000/api/v1/learns/todays_task",option)
-   const learns = res.data.data
-   dispatch(fetchGetLearnNextTasksAction(learns))
+    const res= await axios.get(`http://localhost:3000/api/v1/learns/todays_task?id=${userId}`,{
+    })
+    const learns = res.data.data
+    dispatch(fetchGetLearnNextTasksAction(learns))
+
   }
 }

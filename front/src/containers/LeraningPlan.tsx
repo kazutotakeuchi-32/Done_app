@@ -52,7 +52,6 @@ export const LearningPlan = () => {
   // モーダル
   const [taskId, setTaskId] = useState(0)
   const [open, setOpen] = React.useState(false)
-
   useEffect(()=>{
     setIsLoading(true)
     dispatch(getUser(id))
@@ -131,6 +130,8 @@ export const LearningPlan = () => {
               setOpen(false)
             }}
             handleSubmid={handleSubmidPreview}
+            submidText={"追加"}
+            isReadonly={false}
           />
         </>
         :

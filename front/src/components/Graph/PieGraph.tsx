@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Grid, makeStyles } from '@material-ui/core'
 import { Pie } from 'react-chartjs-2'
 import { useDispatch, useSelector } from 'react-redux'
@@ -43,7 +43,12 @@ function getStandardDeviation(datas: number[], average: number) {
   return result
 }
 
-export const PieGraph = () => {
+type Props ={
+  value:number,
+  index:number
+}
+
+export const PieGraph = ({index,value}:Props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [pieStartDate, setPieStartDate] = useState(new Date())
@@ -56,6 +61,20 @@ export const PieGraph = () => {
   const learnSubject = {}
   let totalPlanTime = 0
   let totalDoneTime = 0
+
+  useEffect(()=>{
+    if (localStorage.getItem("pieStartDate")) {
+      const date:any = localStorage.getItem("pieStartDate")
+      const d=new Date(date)
+      setPieStartDate(d)
+      // localStorage.removeItem("pieStartDate")
+    }
+    if (localStorage.getItem("pieAggregationType")) {
+      const AT:any = localStorage.getItem("pieAggregationType")
+      setPieAggregationType(AT)
+      // localStorage.removeItem("pieAggregationType")
+    }
+  },[value])
 
   draftNextTasks.data.map((l) => {
     if (draftSubject[l.subject] && l.subject != '') {
@@ -208,10 +227,14 @@ export const PieGraph = () => {
           onChangeDate={(e) => {
             setPieStartDate(e)
             dispatch(setPieGraph(e, pieAggregationType, location.href.split('/')[4]))
+            localStorage.setItem("pieStartDate",e)
+            localStorage.setItem("pieAggregationType",pieAggregationType)
           }}
           onChangeSelect={(e) => {
             setPieAggregationType(e.target.value)
             dispatch(setPieGraph(pieStartDate, e.target.value, location.href.split('/')[4]))
+            localStorage.setItem("pieStartDate",pieStartDate.toString())
+            localStorage.setItem("pieAggregationType",e.target.value)
           }}
           onClick={(e) => {
             console.log(e)

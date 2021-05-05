@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { setBarGraph } from '../../reducks/users/operations'
 import { Selecte } from './Selecte'
 import { AnalysisTable } from './AnalysisTable'
+import { push } from 'connected-react-router'
 
 const useStyles = makeStyles((theme) => ({
   chart: {
@@ -56,7 +57,13 @@ function dateType(dateType:string):string|undefined {
   }
 }
 
-export const BarGraph = () => {
+type Props ={
+  value:number,
+  index:number
+}
+
+export const BarGraph = ({value,index}:Props) => {
+
   const classes = useStyles()
   const dispatch = useDispatch()
   const [barStartDate, setBarStartDate] = useState(new Date())
@@ -69,12 +76,23 @@ export const BarGraph = () => {
   let totalPlanTime = 0
   let totalDoneTime = 0
 
-
-
   useEffect(() => {
-    setScrrenWidth(window.screen.width)
-  }, [window.screen.width])
-
+      if (localStorage.getItem("barStartDate")){
+        const date:any = localStorage.getItem("barStartDate")
+        const d=new Date(date)
+        setBarStartDate(d)
+        // localStorage.removeItem("barStartDate")
+      }
+      if (localStorage.getItem("barAggregationType")) {
+        const AT:any = localStorage.getItem("barAggregationType")
+        setBarAggregationType(AT)
+        // localStorage.removeItem("barAggregationType")
+      }
+  }, [value])
+  // useEffect(()=>{
+  // },[])
+  // /([0-9]{4}年[\d]{0,1}月[\d]{1,2}日|[\d]{0,1}月[\d]{1,2}日)/g
+  // /([0-9]{4}年[\d]{1,2}月[\d]{1,2}日|[\d]{1,2}月[\d]{1,2}日)/g
 
   const analysisData: any = Object.values(learnPreviousTasks.data.map((l) => l.data))
   const total = analysisData.reduce(function (sum, num) {
@@ -180,10 +198,14 @@ export const BarGraph = () => {
           onChangeDate={(e) => {
             setBarStartDate(e)
             dispatch(setBarGraph(e, barAggregationType, location.href.split('/')[4]))
+            localStorage.setItem("barStartDate",e)
+            localStorage.setItem("barAggregationType",barAggregationType)
           }}
           onChangeSelect={(e) => {
             setBarAggregationType(e.target.value)
             dispatch(setBarGraph(barStartDate, e.target.value, location.href.split('/')[4]))
+            localStorage.setItem("barStartDate",barStartDate.toString())
+            localStorage.setItem("barAggregationType",e.target.value)
           }}
           onClick={(e) => {
             // console.log(e)
@@ -192,7 +214,7 @@ export const BarGraph = () => {
         />
       </Grid>
       <Grid sm={12} xs={12} style={{ width: '100%', height: 'auto' }}>
-        <div className="" style={{ width: '100%', height: 'auto' }}>
+        <div className="" style={{ width: '100%', height: 'auto' }} onClick={()=>dispatch(push("/users/2"))}>
           <AnalysisTable
             totalPlanTime={totalPlanTime}
             totalDoneTime={totalDoneTime}

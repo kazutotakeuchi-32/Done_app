@@ -34,8 +34,6 @@ export const Mypage = ()=>{
   const classes = useStyles()
   const dispatch = useDispatch()
   const userSelector  = state=>state.users
-  const learnSelector = state=>state.learns
-  const {nextTasks,previousTasks} = useSelector(learnSelector)
   const {id,name,avatar}=useSelector(userSelector)
   const[isLoading,setIsLoading]=useState(false)
   useEffect(()=>{
@@ -47,7 +45,16 @@ export const Mypage = ()=>{
     setTimeout(()=>{
       setIsLoading(false)
     },1000)
-
+    localStorage.removeItem("barAggregationType")
+    localStorage.removeItem("barStartDate")
+    localStorage.removeItem("pieStartDate")
+    localStorage.removeItem("pieAggregationType")
+    return () =>{
+      localStorage.removeItem("barAggregationType")
+      localStorage.removeItem("barStartDate")
+      localStorage.removeItem("pieStartDate")
+      localStorage.removeItem("pieAggregationType")
+    }
   },[location.href])
   const anotherUserString =localStorage.getItem("anotherUser")
   let anotherUser:any={}
@@ -83,7 +90,6 @@ export const Mypage = ()=>{
       }
       </>
         )
-
 }
 
 {/* <div className="" style={{

@@ -12,8 +12,8 @@ export const Graph = (props:Props)=>{
   const {value,index} = props
   return (
     <TabPanel value={value} index={index}>
-      <BarGraph/>
-      <PieGraph/>
+      <BarGraph value={value} index={index}/>
+      <PieGraph value={value} index={index}/>
     </TabPanel>
   )
 }
