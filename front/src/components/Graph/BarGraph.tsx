@@ -226,7 +226,12 @@ export const BarGraph = ({value,index}:Props) => {
             standardDeviation={standardDeviation}
           />
         </div>
-        {/* <div className="">
+      </Grid>
+    </Grid>
+  )
+}
+
+{/* <div className="">
           <p>総計画(時) ：{totalPlanTime}</p>
           <p>総学習（時）：{totalDoneTime}</p>
           <p>達成率（％）：{Math.floor((totalDoneTime / totalPlanTime) * 100 + 0.5)}</p>
@@ -236,11 +241,6 @@ export const BarGraph = ({value,index}:Props) => {
           <p>最頻値</p>
           <p>標準偏差</p>
         </div> */}
-      </Grid>
-    </Grid>
-  )
-}
-
 // <div className="">
 // <DatePicker
 //   selected={barStartDate}

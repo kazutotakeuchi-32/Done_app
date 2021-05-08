@@ -299,7 +299,7 @@ export const setBarGraph = (date,aggregationType,id)=>{
   const month  = date.getMonth()+1
   const day    = date.getDate()
   return async (dispatch)=>{
-   const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
+   const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/draft_search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
    const learns=res.data.data.learns.search_tasks
    const draftLearns=res.data.data.draftLearns.search_tasks
    dispatch(fetchGetDraftPeviousTasksAction(draftLearns))

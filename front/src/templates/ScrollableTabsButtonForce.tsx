@@ -36,6 +36,7 @@ const Styles = makeStyles((theme: Theme) => ({
       'aria-controls': `scrollable-force-tabpanel-${index}`,
     };
   }
+  const isDisable:boolean = localStorage.getItem("anotherUser")? true : false
 
   return (
     <div className={classes.root}>
@@ -52,10 +53,9 @@ const Styles = makeStyles((theme: Theme) => ({
           <Tab label="分析"  {...a11yProps(0)} />
           <Tab label="今日のタスク"  {...a11yProps(1)} />
           <Tab label="タイムライン" {...a11yProps(2)} />
-          <Tab label="DM" {...a11yProps(3)} />
+          <Tab label="DM" {...a11yProps(3)} disabled={isDisable} />
           <Tab label="過去のタスク"  {...a11yProps(4)} />
-          <Tab label="ユーザ検索" {...a11yProps(5)} />
-          {/* <Tab label=""  {...a11yProps(6)} /> */}
+          <Tab label="ユーザ検索" {...a11yProps(5)}  disabled={isDisable}/>
         </Tabs>
       </AppBar>
       <Graph value={value} index={0}/>
@@ -64,9 +64,6 @@ const Styles = makeStyles((theme: Theme) => ({
       <DirectMessage value={value} index={3}/>
       <PastTasks value={value} index={4}/>
       <UserSearch value={value} index={5}/>
-      {/* <TabPanel value={value} index={6}>
-        Item Seven
-      </TabPanel> */}
     </div>
   );
 }

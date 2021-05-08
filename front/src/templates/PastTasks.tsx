@@ -92,6 +92,7 @@ export const PastTasks = (props: Props) => {
                 `${from}-${to} / ${count !== -1 ? count + '行' : `more than ${to}行`}`
               }
             />
+            <div className="" style={{height:"400px",overflow:"scroll"}}>
             <DenseTable
               draftNextTasks={previousTasks}
               isCheckBox={false}
@@ -106,6 +107,7 @@ export const PastTasks = (props: Props) => {
               }}
               handleCheaked={(e) => e}
             />
+            </div>
             <ModalForm
               open={open}
               tasks={{ id: id, title: title, subject: subject, time: time, content: content }}
