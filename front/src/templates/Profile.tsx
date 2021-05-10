@@ -6,14 +6,12 @@ import { IconButton, Link } from '@material-ui/core'
 import { push } from 'connected-react-router'
 import Avatar from '@material-ui/core/Avatar'
 import { Image } from '../containers/Setting'
-
 const useStyles = makeStyles((theme) => ({
   '@global': {
     body: {
       backgroundColor: theme.palette.common.white,
     },
   },
-
   paper: {
     marginTop: theme.spacing(7),
     display: 'flex',
