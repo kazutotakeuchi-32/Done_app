@@ -23,13 +23,12 @@ export const Home = ()=>{
   const userSelector  = state=>state.users
   const {id}=useSelector(userSelector)
   const[isLoading,setIsLoading]=useState(false)
-  // const
   useEffect(()=>{
-    setIsLoading(true)
-    dispatch(getUser(id))
-    setTimeout(()=>{
+      setIsLoading(true)
+      dispatch(getUser(id))
+      setTimeout(()=>{
       setIsLoading(false)
-    },1000)
+      },1000)
   },[])
 
   return(

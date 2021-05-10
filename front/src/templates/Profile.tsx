@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Container, CssBaseline, Grid, hexToRgb, makeStyles, Typography } from '@material-ui/core'
-import { getUser } from '../reducks/users/operations'
+import { Button, Grid,  makeStyles, Typography } from '@material-ui/core'
+import { following, unfollow } from '../reducks/users/operations'
 import { IconButton, Link } from '@material-ui/core'
 import { push } from 'connected-react-router'
 import Avatar from '@material-ui/core/Avatar'
@@ -50,11 +50,19 @@ type Props = {
 }
 
 export const Profile = (props: Props) => {
-
   const { imageUrl, anotherUser, anotherUserString, pushSetting } = props
   const classes = useStyles()
-  const userSelector = state=>state.users
-  const myName = useSelector(userSelector).name
+  const userSelector = (state) => state.users
+  const dispatch = useDispatch()
+  const { name: myName, id: myId, followings: myFollowing, followers: myFollowers } = useSelector(userSelector)
+  const isFollowing = (): boolean => (anotherUser.followers.some((followId) => followId == myId) ? true : false)
+  const handleClick = () => {
+    if (isFollowing()) {
+      dispatch(unfollow(location.href.split('/')[4]))
+    } else {
+      dispatch(following(location.href.split('/')[4]))
+    }
+  }
   return (
     <Grid item sm={5} xs={12} style={{}} justify="center">
       <div
@@ -108,7 +116,7 @@ export const Profile = (props: Props) => {
                 margin: '10px',
               }}
             >
-              フォロー
+              フォロー{anotherUser.followings ? anotherUser.followings.length : myFollowing.length}
             </a>
             <a
               href=""
@@ -116,7 +124,7 @@ export const Profile = (props: Props) => {
                 margin: '10px',
               }}
             >
-              フォロワー{' '}
+              フォロワー{anotherUser.followers ? anotherUser.followers.length : myFollowers.length}
             </a>
           </div>
           <div
@@ -127,8 +135,22 @@ export const Profile = (props: Props) => {
             }}
           >
             {anotherUserString ? (
-              <Button type="submit" fullWidth variant="contained" color="primary">
-                フォローする
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={handleClick}
+                style={
+                  isFollowing()
+                    ? {
+                        backgroundColor: 'white',
+                        color: 'royalblue',
+                      }
+                    : {}
+                }
+              >
+                {isFollowing() ? 'フォロー済み' : 'フォローする'}
               </Button>
             ) : (
               <Button type="submit" fullWidth variant="contained" color="primary" onClick={pushSetting}>
@@ -141,5 +163,3 @@ export const Profile = (props: Props) => {
     </Grid>
   )
 }
-// box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
-// }

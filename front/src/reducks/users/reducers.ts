@@ -1,3 +1,4 @@
+import { isDoStatement } from "typescript";
 import { initialState } from "../store/initialState"
 import * as Actions from "./actions";
 export const UsersReducer=(state=initialState.user,action)=>{
@@ -12,6 +13,21 @@ export const UsersReducer=(state=initialState.user,action)=>{
     case Actions.SETTINGS_ACCOUNT:
       return {
        ...action.Payload.users
+      }
+    case Actions.GET_USER:
+      return{
+        ...state,
+        id:action.Payload.users.id,
+        name:action.Payload.users.name,
+        followings:action.Payload.users.followings,
+        followers:action.Payload.users.followers
+      }
+    case Actions.FOLLOWING:
+    case Actions.UNFOLLOW:
+      return{
+        ...state,
+        followings:action.Payload.follows.followings,
+        followers:action.Payload.follows.followers
       }
     case Actions.INTIAL_USER:
     case Actions.RESET_PASSWORD:

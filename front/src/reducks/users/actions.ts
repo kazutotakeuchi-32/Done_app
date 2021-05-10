@@ -98,16 +98,41 @@ export const settingsAccoutnAction = (users) => {
 }
 
 export const GET_USER="GET_USER"
-export const getUserAction = (user)=>{
+export const getUserAction = (users)=>{
   return (
     {
       type:"GET_USER",
       Payload:{
-        user
+        users
       }
     }
   )
 }
+
+export const FOLLOWING = "FOLLOWING"
+export const followingAction =(follows)=>{
+  return(
+    {
+      type:"FOLLOWING",
+      Payload:{
+        follows
+      }
+    }
+  )
+}
+
+export const UNFOLLOW  = "UNFOLLOW"
+export const unfollowAction=(follows)=>{
+  return(
+    {
+      type:"UNFOLLOW",
+      Payload:{
+        follows
+      }
+    }
+  )
+}
+
 export const INTIAL_USER ="INTIAL_USER"
 export const initialUserAction=()=>{
   return(

@@ -9,6 +9,8 @@ export const initialState ={
     token:null,
     uid:"",
     actived:false,
+    followings:[],
+    followers:[],
   },
   learns:{
     nextTasks:[],

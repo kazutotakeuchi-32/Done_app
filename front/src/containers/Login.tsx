@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useDispatch , useSelector} from "react-redux";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -74,9 +74,12 @@ export const Login = (props:{
   const userSelector = state=>state.users
   const actived = useSelector(userSelector).actived
   const dispatch = useDispatch()
-  if (actived) {
-    dispatch(push("/"))
-  }
+  useEffect(()=>{
+    if (actived) {
+        dispatch(push("/"))
+    }
+  },[])
+
   const handleSubmit =(values)=>{
     props.name=="ログイン(管理者)"?
         dispatch(adminSignIn(values))

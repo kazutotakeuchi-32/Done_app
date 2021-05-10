@@ -9,12 +9,12 @@ import { signUpAction ,
           settingsAccoutnAction,
           adminSignInAction,
           adminSignOutAction,
-          getUserAction
+          getUserAction,
+          followingAction
 }
 from "../users/actions";
 import crypto  from "crypto-js";
 import { fetchGetLeaningAction, fetchGetLearnNextTasksAction, fetchGetLearnPeviousTasksAction } from "../learns/actions";
-import { useRadioGroup } from "@material-ui/core";
 import { fetchGetDraftLeaningAction, fetchGetDraftNextTasksAction, fetchGetDraftPeviousTasksAction } from "../draft_learns/actions";
 import { fetchGetDraftNextTasks } from "../draft_learns/operations";
 function userDatas(data,headers,type="SIGN_IN"){
@@ -28,6 +28,8 @@ function userDatas(data,headers,type="SIGN_IN"){
           uid:headers['uid'],
           token:headers['access-token'],
           actived:true,
+          followings:[],
+          followers:[],
           }
       :
           {
@@ -38,7 +40,9 @@ function userDatas(data,headers,type="SIGN_IN"){
             client:"",
             uid:"",
             token:"",
-            actived:false,
+            actived:true,
+            followingss:data.followings,
+            followers:data.followers,
           }
 }
 function encryptKey():string {
@@ -146,6 +150,8 @@ export const adminSignOut=({uid,client,token})=>{
       token:null,
       uid:"",
       actived:false,
+      followings:[],
+      followers:[],
     }
     dispatch(adminSignOutAction(user))
   }
@@ -173,6 +179,8 @@ export const signOut=({uid,client,token})=>{
       token:null,
       uid:"",
       actived:false,
+      followings:[],
+      followers:[],
     }
     dispatch(signOutAction(user))
   }
@@ -275,6 +283,9 @@ export const getUser=(id)=>{
       const user   = res.data.data.user
       const learns = res.data.data.learns
       const draftLearns = res.data.data.draftLearns
+      user.followings=res.data.data.followings
+      user.followers=res.data.data.followers
+      user.actived=true
 
       for (let i = 0; i < learns.nextTasks.length; i++) {
         learns.previousTasks.push(learns.nextTasks[i])
@@ -284,13 +295,16 @@ export const getUser=(id)=>{
           id:user.id,
           name:user.name,
           avatar: user.avatar ? user.avatar : "" ,
-          admin: user.admin
+          admin: user.admin,
+          followings:res.data.data.followings,
+          followers:res.data.data.followers,
          }))
+       }else{
+        dispatch(getUserAction(user))
        }
-      dispatch(getUserAction(user))
-      dispatch(fetchGetDraftLeaningAction(draftLearns))
-      dispatch(fetchGetLeaningAction(learns))
-    }
+        dispatch(fetchGetDraftLeaningAction(draftLearns))
+        dispatch(fetchGetLeaningAction(learns))
+      }
   }
 }
 
@@ -326,4 +340,50 @@ export const setPieGraph = (date,aggregationType,id)=>{
    dispatch(fetchGetDraftNextTasksAction(draftLerans))
    dispatch(fetchGetLearnNextTasksAction(learns))
   }
+}
+
+export const following = (otherUserId)=>{
+  const {uid,client,token,id:myId} = JSON.parse(localStorage.redux).users
+     const option={
+       headers:{
+         'client':client,
+         'access-token':token,
+         'uid':uid
+       }
+     }
+  return async (dispatch)=>{
+    const res = await axios.post(`http://localhost:3000/api/v1/relationships`,{
+      follow_id:otherUserId,
+    },option)
+    if (res.status==200) {
+      const anotherUserStr:any=localStorage.getItem("anotherUser")
+      const anotherUser=JSON.parse(anotherUserStr)
+      const prevFollowers = anotherUser.followers
+      prevFollowers.push(myId)
+      localStorage.setItem("anotherUser",JSON.stringify({...anotherUser,followers:prevFollowers}))
+      const {followings,followers}=res.data
+      dispatch(followingAction({followings:followings,followers:followers}))
+    }
+  }
+}
+
+export const unfollow = (otherUserId)=>{
+  const {uid,client,token,id:myId} = JSON.parse(localStorage.redux).users
+     const option={
+       headers:{
+         'client':client,
+         'access-token':token,
+         'uid':uid
+       }
+     }
+     return async (dispatch)=>{
+        const res = await axios.delete(`http://localhost:3000/api/v1/relationships/${otherUserId}`,option)
+        const anotherUserStr:any=localStorage.getItem("anotherUser")
+        const anotherUser=JSON.parse(anotherUserStr)
+        const prevFollowers = anotherUser.followers
+        const nextFollowers = prevFollowers.filter(followId=>followId!=myId)
+        localStorage.setItem("anotherUser",JSON.stringify({...anotherUser,followers:nextFollowers}))
+        const {followings,followers}=res.data
+        dispatch(followingAction({followings:followings,followers:followers}))
+     }
 }
