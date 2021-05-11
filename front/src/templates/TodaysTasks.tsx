@@ -26,7 +26,7 @@ export const TodaysTasks = (props: Props) => {
   useEffect(() => {
     const getTasks = async () => {
       const id = getId()
-      const res = await axios.get(`http://localhost:3000/api/v1/learns/todays_task?id=${id}`)
+      const res = await axios.get(`http://localhost:3000/api/v1/draft_learns/todays_task?id=${id}`)
       const { nextTasks: todayTasks } = res.data.data
       setTodaysTasks(todayTasks)
     }

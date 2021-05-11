@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Grid,  makeStyles, Typography } from '@material-ui/core'
+import { Button, Grid,  makeStyles, Typography  } from '@material-ui/core'
 import { following, unfollow } from '../reducks/users/operations'
 import { IconButton, Link } from '@material-ui/core'
 import { push } from 'connected-react-router'
+
 import Avatar from '@material-ui/core/Avatar'
 import { Image } from '../containers/Setting'
 const useStyles = makeStyles((theme) => ({
@@ -108,22 +109,23 @@ export const Profile = (props: Props) => {
               fontSize: '20px',
             }}
           >
-            <a
-              href=""
+            <Link
+              // href=""
+              href={`/users/${anotherUser.id? anotherUser.id: myId}/follows`}
               style={{
                 margin: '10px',
               }}
             >
               フォロー{anotherUser.followings ? anotherUser.followings.length : myFollowing.length}
-            </a>
-            <a
-              href=""
+            </Link>
+            <Link
+              href={`/users/${anotherUser.id? anotherUser.id: myId}/followers`}
               style={{
                 margin: '10px',
               }}
             >
               フォロワー{anotherUser.followers ? anotherUser.followers.length : myFollowers.length}
-            </a>
+            </Link>
           </div>
           <div
             className=""
@@ -148,7 +150,7 @@ export const Profile = (props: Props) => {
                     : {}
                 }
               >
-                {isFollowing() ? 'フォロー済み' : 'フォローする'}
+                {isFollowing() ? 'フォロー中' : 'フォローする'}
               </Button>
             ) : (
               <Button type="submit" fullWidth variant="contained" color="primary" onClick={pushSetting}>

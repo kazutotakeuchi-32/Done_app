@@ -56,6 +56,7 @@ export const Mypage = ()=>{
       localStorage.removeItem("pieAggregationType")
     }
   },[location.href])
+
   const anotherUserString =localStorage.getItem("anotherUser")
   let anotherUser:any={}
   if (anotherUserString) {

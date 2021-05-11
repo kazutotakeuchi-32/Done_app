@@ -22,6 +22,7 @@ import { Setting } from './containers/Setting';
 import { Sidbar } from './components/Sidbar/Sidbar';
 import { LearningPlan } from './containers/LeraningPlan';
 import { LearningDone } from './containers/LearningDone';
+import { FollowLists } from './containers/FollowLists';
 
 export const App =():JSX.Element=>{
   return (
@@ -34,6 +35,10 @@ export const App =():JSX.Element=>{
               <PrivateRoute exact path="/leraning/done" component={LearningDone}/>
               <PrivateRoute exact path="/users/setting" component={Setting}/>
               <PrivateRoute exact path="/users/:id" component={Mypage} />
+              <PrivateRoute exact path="/users/:id/follows" component={FollowLists} />
+              <PrivateRoute exact path="/users/:id/followers" component={FollowLists} />
+              {/*
+              <PrivateRoute exact path="/users/:id/followers" component={Mypage} /> */}
               <Route exact path="/signup">
                 <Signup/>
               </Route>
