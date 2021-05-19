@@ -29,6 +29,7 @@ export const UsersReducer=(state=initialState.user,action)=>{
         followings:action.Payload.follows.followings,
         followers:action.Payload.follows.followers
       }
+
     case Actions.INTIAL_USER:
     case Actions.RESET_PASSWORD:
       return  state

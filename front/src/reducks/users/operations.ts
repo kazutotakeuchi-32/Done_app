@@ -387,3 +387,26 @@ export const unfollow = (otherUserId)=>{
         dispatch(followingAction({followings:followings,followers:followers}))
      }
 }
+
+export const likeing = (otherUserId)=>{
+  const {uid,client,token,id:myId} = JSON.parse(localStorage.redux).users
+     const option={
+       headers:{
+         'client':client,
+         'access-token':token,
+         'uid':uid
+       }
+     }
+     return async (dispatch)=>{
+       const res = await axios.post(`http://localhost:3000/api/v1/likes?type=DRAFTLEARN&id=3&date=2021/05/14&other_user=1`,option)
+
+      // const anotherUserStr:any=localStorage.getItem("anotherUser")
+      // const anotherUser=JSON.parse(anotherUserStr)
+      // const prevFollowers = anotherUser.followers
+      // const nextFollowers = prevFollowers.filter(followId=>followId!=myId)
+      // localStorage.setItem("anotherUser",JSON.stringify({...anotherUser,followers:nextFollowers}))
+      // const {followings,followers}=res.data
+      // dispatch(followingAction({followings:followings,followers:followers}))
+   }
+
+}
