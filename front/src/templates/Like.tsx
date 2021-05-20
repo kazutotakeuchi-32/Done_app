@@ -15,6 +15,7 @@ export const Like = ({item,data,otherUser}: Props) => {
   const { id, uid, client, token } = useSelector(userSelector)
   const [likes, setLikes] = useState(item)
   const [likeCount, setLikeCount] = useState(item.length)
+  console.log(likes);
   useEffect(() => {
     setLikes(item)
     setLikeCount(item.length)
