@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {useSelector } from 'react-redux'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 
 type Props = {
@@ -15,7 +16,6 @@ export const Like = ({item,data,otherUser}: Props) => {
   const { id, uid, client, token } = useSelector(userSelector)
   const [likes, setLikes] = useState(item)
   const [likeCount, setLikeCount] = useState(item.length)
-  console.log(likes);
   useEffect(() => {
     setLikes(item)
     setLikeCount(item.length)
@@ -57,6 +57,9 @@ export const Like = ({item,data,otherUser}: Props) => {
             if (res.status == 200) {
               setLikeCount((state) => state + 1)
               setLikes([...likes,{user_id:id}])
+              // state.push({ user_id: id })
+              // return state
+              console.log(likes);
             }
           }
         }}

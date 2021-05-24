@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       maxWidth: 360,
       margin: 'auto',
-      backgroundColor: theme.palette.background.paper,
+      // backgroundColor: theme.palette.background.paper,
     },
     body: {
       paddingTop: '10px',

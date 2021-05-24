@@ -1,10 +1,7 @@
 import React from 'react'
 import { TabPanel } from './TabPanel'
-import Logo from '../assets/images/done.png'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
-
-
+import { DirectMessageItems } from './DirectMessageItems'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -42,46 +39,9 @@ export const DirectMessage = (props: Props) => {
     <TabPanel index={index} value={value}>
       <div className="" style={{ padding: '40px 0' }}>
         <div className="" style={{ margin: 'auto' }}>
-          <List className={classes.root}>
-            <header
-              style={{
-                width: '100%',
-                height: '30px',
-                boxShadow: '0px 3px 6px #0000001A',
-                display: 'flex',
-                justifyContent: 'space-around',
-                borderRadius: '5px',
-              }}
-            >
-              <img src={Logo} alt="" className={classes.img} />
-            </header>
-            <div className="" style={{ height: '450px', overflow: 'scroll' ,background:"#7494C0"}}></div>
-            <footer
-              style={{
-                height: '30px',
-                background: 'royalblue',
-                display: 'flex',
-                justifyContent: 'space-around',
-                margin: '0',
-                color: 'white',
-                borderRadius: '5px',
-              }}
-            >
-             <form style={{display:"flex"}}>
-               <div className="">
-                <input type="text" />
-               </div>
-                <div className="">
-                <input type="button" value="" />
-                </div>
-             </form>
-            </footer>
-          </List>
+          <DirectMessageItems/>
         </div>
       </div>
-      {/* <div className="">
-       DM
-      </div> */}
     </TabPanel>
   )
 }
