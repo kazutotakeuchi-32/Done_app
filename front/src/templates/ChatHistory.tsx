@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
+import { API_ROOT } from '../constants'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +34,7 @@ export default function AlignItemsList({ onClick }: Props) {
   const [rooms, setRooms] = useState<any>([])
   useEffect(() => {
     const fetchChathistory = async () => {
-      const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/rooms`)
+      const res = await axios.get(`${API_ROOT}/api/v1/users/${id}/rooms`)
       setRooms(res.data.data.rooms)
     }
     fetchChathistory()

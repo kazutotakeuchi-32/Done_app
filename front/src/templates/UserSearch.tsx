@@ -6,6 +6,7 @@ import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { UsersList } from './UsersList'
 import { useSelector } from 'react-redux'
+import { API_ROOT } from '../constants'
 
 type Props = {
   value: number
@@ -90,7 +91,7 @@ export const UserSearch = (props: Props) => {
   }
   useEffect(() => {
     const userSearch = async () => {
-      const res = await axios(`http://localhost:3000/api/v1/users/search?search=${search}&id=${id}`)
+      const res = await axios(`${API_ROOT}/api/v1/users/search?search=${search}&id=${id}`)
       setUsers(res.data.data.users)
       setMessage(res.data.data.message)
     }

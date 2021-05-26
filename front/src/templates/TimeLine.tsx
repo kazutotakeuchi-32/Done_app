@@ -5,6 +5,7 @@ import { TabPanel } from './TabPanel'
 import TimeLineItems from './TimeLineItems'
 import Pagination from '@material-ui/lab/Pagination'
 import { createStyles,  makeStyles } from '@material-ui/core/styles'
+import { API_ROOT } from '../constants'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -71,7 +72,7 @@ export const TimeLine = (props: Props) => {
     const id = location.href.split('/')[4]
     const fetchTimeLine = async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/users/${id}/time_line?cuurent_page=${currentPage}&type=BASIC`
+        `${API_ROOT}/api/v1/users/${id}/time_line?cuurent_page=${currentPage}&type=BASIC`
       )
       setData(res.data.data.timeLine)
       setMaxPage(res.data.data.maxPage)
@@ -99,7 +100,7 @@ export const TimeLine = (props: Props) => {
                 const text: string = e.target.innerText
                 const nextAggregationType: string = getNextAggregationType(text)
                 const res = await axios.get(
-                  `http://localhost:3000/api/v1/users/${
+                  `${API_ROOT}/api/v1/users/${
                     location.href.split('/')[4]
                   }/time_line?cuurent_page=1&type=${nextAggregationType}`
                 )
@@ -121,7 +122,7 @@ export const TimeLine = (props: Props) => {
             currentPage={currentPage}
             onChange={async (event, page) => {
               const res = await axios.get(
-                `http://localhost:3000/api/v1/users/${
+                `${API_ROOT}/api/v1/users/${
                   location.href.split('/')[4]
                 }/time_line?cuurent_page=${page}&type=${aggregationType}`
               )

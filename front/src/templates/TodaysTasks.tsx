@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { API_ROOT } from '../constants'
 import { ModalForm } from './modalForm'
 import { DenseTable } from './Table'
 import { TabPanel } from './TabPanel'
@@ -26,7 +27,7 @@ export const TodaysTasks = (props: Props) => {
   useEffect(() => {
     const getTasks = async () => {
       const id = getId()
-      const res = await axios.get(`http://localhost:3000/api/v1/draft_learns/todays_task?id=${id}`)
+      const res = await axios.get(`${API_ROOT}/api/v1/draft_learns/todays_task?id=${id}`)
       const { nextTasks: todayTasks } = res.data.data
       setTodaysTasks(todayTasks)
     }

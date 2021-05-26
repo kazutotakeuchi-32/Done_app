@@ -5,6 +5,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
+import { API_ROOT } from '../constants'
 
 type Props = {
   item: any
@@ -37,7 +38,7 @@ export const Like = ({item,data,otherUser}: Props) => {
           const likeType = data.match(/学習の振り返り/) ?  'LEARN':'DRAFTLEARN'
           if (likes.filter((like) => like.user_id == id).length != []) {
             const res = await axios.delete(
-              `http://localhost:3000/api/v1/likes?type=${likeType}&date=${date}&other_user=${otherUser}`,
+              `${API_ROOT}/api/v1/likes?type=${likeType}&date=${date}&other_user=${otherUser}`,
               option
             )
             if (res.status == 200) {
@@ -47,7 +48,7 @@ export const Like = ({item,data,otherUser}: Props) => {
             }
           } else {
             const res = await axios.post(
-              `http://localhost:3000/api/v1/likes`,{
+              `${API_ROOT}/api/v1/likes`,{
                 type:likeType,
                 date:`${date}`,
                 other_user:otherUser

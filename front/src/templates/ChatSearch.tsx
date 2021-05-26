@@ -10,6 +10,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Divider from '@material-ui/core/Divider'
+import { API_ROOT } from '../constants'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,7 +101,7 @@ export const ChatSearch = ({ onClick }: Props) => {
   }
   useEffect(() => {
     const fetchMutalFollowing = async () => {
-      const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/mutual_following`)
+      const res = await axios.get(`${API_ROOT}/api/v1/users/${id}/mutual_following`)
       setUsers(res.data.data.users)
     }
     fetchMutalFollowing()
@@ -108,7 +109,7 @@ export const ChatSearch = ({ onClick }: Props) => {
 
   useEffect(() => {
     const userSearch = async () => {
-      const res = await axios(`http://localhost:3000/api/v1/users/${id}/mutual_following?search=${search}`)
+      const res = await axios(`${API_ROOT}/api/v1/users/${id}/mutual_following?search=${search}`)
       setUsers(res.data.data.users)
       setMessage(res.data.data.message)
     }

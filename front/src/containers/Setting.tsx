@@ -17,6 +17,8 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import { DirectUpload } from 'activestorage'
+import { API_ROOT } from '../constants'
+
 
 const SignupSchema = yup.object().shape({
   email: yup.string().email().required('This field is required.'),
@@ -121,13 +123,13 @@ export const Setting = () => {
   }
 
   const uploadFile = (values, id) => {
-    const upload = new DirectUpload(values.image, 'http://localhost:3000/rails/active_storage/direct_uploads')
+    const upload = new DirectUpload(values.image, `${API_ROOT}/rails/active_storage/direct_uploads`)
     upload.create(async (error, blob) => {
       console.log(blob)
       if (error) {
         return error
       } else {
-        const res = await fetch('http://localhost:3000/rails/active_storage/direct_uploads', {
+        const res = await fetch(`${API_ROOT}/rails/active_storage/direct_uploads`, {
           method: 'put',
           headers: {
             'Content-Type': 'application/json',
@@ -143,7 +145,7 @@ export const Setting = () => {
   }
 
   const deleteFile = async (values, id) => {
-    const res = await fetch('http://localhost:3000/rails/active_storage/direct_uploads', {
+    const res = await fetch(`${API_ROOT}/rails/active_storage/direct_uploads`, {
       method: 'delete',
       headers: {
         'Content-Type': 'application/json',

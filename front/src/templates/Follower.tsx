@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FollowTabPanel } from "./Followtabs";
 import axios from "axios";
 import { UsersList } from "./UsersList";
+import { API_ROOT } from "../constants";
 type Props={
   index:number,
   value:number,
@@ -13,7 +14,7 @@ export const Followers  = ({index,value,userId}:Props)=>{
   const[message,setMessage]= useState<string>("")
   useEffect(()=>{
    const fetchFollowers=async()=>{
-     const res =await axios.get(`http://localhost:3000/api/v1/users/${userId}/followers`)
+     const res =await axios.get(`${API_ROOT}/api/v1/users/${userId}/followers`)
      setUsers(res.data.data.followers)
      setMessage(res.data.data.message)
    }

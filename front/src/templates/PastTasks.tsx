@@ -4,6 +4,7 @@ import TablePagination from '@material-ui/core/TablePagination'
 import { ModalForm } from './modalForm'
 import { DenseTable } from './Table'
 import { TabPanel } from './TabPanel'
+import { API_ROOT } from '../constants'
 
 type Props = {
   value: number
@@ -33,7 +34,7 @@ export const PastTasks = (props: Props) => {
     const getTasks = async () => {
       const id = getId()
       const res = await axios.get(
-        `http://localhost:3000/api/v1/learns/past_tasks?id=${id}&cuurent_page=${page + 1}&rows=${rowsPerPage}`
+        `${API_ROOT}/api/v1/learns/past_tasks?id=${id}&cuurent_page=${page + 1}&rows=${rowsPerPage}`
       )
       const { previousTasks, maxPage: MP } = res.data.data
       setPreviousTasks(previousTasks)
@@ -45,7 +46,7 @@ export const PastTasks = (props: Props) => {
   const handleChangePage = async (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     const id = getId()
     const res = await axios.get(
-      `http://localhost:3000/api/v1/learns/past_tasks?id=${id}&cuurent_page=${newPage + 1}&rows=${rowsPerPage}`
+      `${API_ROOT}/api/v1/learns/past_tasks?id=${id}&cuurent_page=${newPage + 1}&rows=${rowsPerPage}`
     )
     const { previousTasks, maxPage: MP } = res.data.data
     setMaxPage(MP)
@@ -55,7 +56,7 @@ export const PastTasks = (props: Props) => {
   const handleChangeRowsPerPage = async (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const id = getId()
     const res = await axios.get(
-      `http://localhost:3000/api/v1/learns/past_tasks?id=${id}&cuurent_page=${1}&rows=${event.target.value}`
+      `${API_ROOT}/api/v1/learns/past_tasks?id=${id}&cuurent_page=${1}&rows=${event.target.value}`
     )
     const { previousTasks, maxPage: MP } = res.data.data
     setMaxPage(MP)

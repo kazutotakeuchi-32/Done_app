@@ -8,6 +8,7 @@ import { ChatSearch } from './ChatSearch'
 import { Button} from '@material-ui/core'
 import axios from 'axios'
 import { useSelector} from 'react-redux'
+import { API_ROOT } from '../constants'
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,9 +37,9 @@ export const DirectMessageItems = () => {
         tabIndex==1 &&
         <ChatSearch
           onClick={async(otherUser)=>{
-            const res=await axios.post(`http://localhost:3000/api/v1/entries?user_id=${id}&other_user=${otherUser.id}`)
+            const res=await axios.post(`${API_ROOT}/api/v1/entries?user_id=${id}&other_user=${otherUser.id}`)
             const room =res.data.data.room
-            const res2=await axios.get(`http://localhost:3000/api/v1/users/${id}/rooms/${room}`)
+            const res2=await axios.get(`${API_ROOT}/api/v1/users/${id}/rooms/${room}`)
             setUser(res2.data.data.user)
             setRoom(res2.data.data.room)
             setmessages(res2.data.data.messages)
@@ -50,7 +51,7 @@ export const DirectMessageItems = () => {
         tabIndex==2 &&
         <ChatHistroy
           onClick={async(room)=>{
-            const res=await axios.get(`http://localhost:3000/api/v1/users/${id}/rooms/${room.room.room_id}`)
+            const res=await axios.get(`${API_ROOT}/api/v1/users/${id}/rooms/${room.room.room_id}`)
             setTabIndex(3)
             setUser(res.data.data.user)
             setRoom(res.data.data.room)
@@ -71,7 +72,7 @@ export const DirectMessageItems = () => {
           onSubmit={ async (e,room)=>{
             const message=e.target[0].value
             e.target[0].value=""
-            const res= await axios.post(`http://localhost:3000/api/v1/users/${id}/rooms/${room.id}/messages`,{
+            const res= await axios.post(`${API_ROOT}/api/v1/users/${id}/rooms/${room.id}/messages`,{
               message:{message:message}
             })
             setmessages([...messages,res.data.data.message])

@@ -1,6 +1,7 @@
 import axios from "axios"
 import { push } from "connected-react-router"
 import { number } from "yup/lib/locale"
+import { API_ROOT } from "../../constants"
 import { fetchPostLearingAction ,fetchGetLearnNextTasksAction} from "./actions"
 export const fetchPostLearning=(vls)=>{
   const {uid,client,token,id} = JSON.parse(localStorage.redux).users
@@ -13,7 +14,7 @@ export const fetchPostLearning=(vls)=>{
   }
   return async (dispatch)=>{
     vls.forEach(async (vl) => {
-      const res = await axios.post("http://localhost:3000/api/v1/learns",{
+      const res = await axios.post(`${API_ROOT}/api/v1/learns`,{
         title:vl.title,
         content:vl.content,
         time:vl.time,
@@ -35,7 +36,7 @@ export const fetchPostLearning=(vls)=>{
 export const  fetchGetLearnNextTasks = (id:number|null) =>  {
   const userId:number = id ? id :  JSON.parse(localStorage.redux).users.id
   return async (dispatch)=>{
-    const res= await axios.get(`http://localhost:3000/api/v1/learns/todays_task?id=${userId}`,{
+    const res= await axios.get(`${API_ROOT}/api/v1/learns/todays_task?id=${userId}`,{
     })
     const learns = res.data.data
     dispatch(fetchGetLearnNextTasksAction(learns))

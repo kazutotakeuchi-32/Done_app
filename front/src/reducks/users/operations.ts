@@ -17,6 +17,8 @@ import crypto  from "crypto-js";
 import { fetchGetLeaningAction, fetchGetLearnNextTasksAction, fetchGetLearnPeviousTasksAction } from "../learns/actions";
 import { fetchGetDraftLeaningAction, fetchGetDraftNextTasksAction, fetchGetDraftPeviousTasksAction } from "../draft_learns/actions";
 import { fetchGetDraftNextTasks } from "../draft_learns/operations";
+import { API_ROOT } from "../../constants";
+
 function userDatas(data,headers,type="SIGN_IN"){
     return  type== "SIGN_IN" || type=="ACTIVEATE_ACCOUNT" || type=="SETTINGS_ACCOUNT"?
         {
@@ -53,7 +55,7 @@ function  utf8_text(text:string)  {
 }
 export const signUp=(userName,email,password,confirmPassword)=>{
   return async (dispatch)=>{
-    const res = await axios.post("http://localhost:3000/api/v1/auth",{
+    const res = await axios.post(`${API_ROOT}/api/v1/auth`,{
       name:userName,
       email:email,
       password:password,
@@ -79,7 +81,7 @@ export const signUp=(userName,email,password,confirmPassword)=>{
 
 export const signIn =({email,password})=>{
   return async (dispatch)=>{
-    const res = await axios.post("http://localhost:3000/api/v1/auth/sign_in",{
+    const res = await axios.post(`${API_ROOT}/api/v1/auth/sign_in`,{
       email:email,
       password:password,
     },{withCredentials : true})
@@ -100,7 +102,7 @@ export const signIn =({email,password})=>{
 
 export const adminSignIn = ({email,password,secretWord})=>{
     return async (dispatch)=>{
-      const res = await axios.post("http://localhost:3000/api/v1/admin/sign_in",{
+      const res = await axios.post(`${API_ROOT}/api/v1/admin/sign_in`,{
         email:email,
         password:password,
         "secret_word":secretWord
@@ -139,7 +141,7 @@ export const adminSignOut=({uid,client,token})=>{
     }
   }
   return async(dispatch)=>{
-   const res= await axios.delete("http://localhost:3000/api/v1/admin/sign_out",option)
+   const res= await axios.delete(`${API_ROOT}/api/v1/admin/sign_out`,option)
     const user ={
       id: null,
       name:"",
@@ -167,7 +169,7 @@ export const signOut=({uid,client,token})=>{
   }
 
   return async(dispatch)=>{
-   const res= await axios.delete("http://localhost:3000/api/v1/auth/sign_out",option)
+   const res= await axios.delete(`${API_ROOT}/api/v1/auth/sign_out`,option)
     console.log(res);
     const user ={
       id: null,
@@ -188,7 +190,7 @@ export const signOut=({uid,client,token})=>{
 
 export const resetPassword=(email)=>{
   return async (dispatch)=>{
-    const res = await axios.post("http://localhost:3000/api/v1/auth/password",{
+    const res = await axios.post(`${API_ROOT}/api/v1/auth/password`,{
       email:email,
       redirect_url:"http://localhost:3001/confirmation/password"
     })
@@ -208,7 +210,7 @@ export const updatePassword=(password,confirmPassword,{token,uid,client})=>{
     }
   }
   return async (dispatch)=>{
-    const res = await axios.put("http://localhost:3000/api/v1/auth/password",{
+    const res = await axios.put(`${API_ROOT}/api/v1/auth/password`,{
       password:password,
       password_confirmation:confirmPassword
     },option)
@@ -234,7 +236,7 @@ export const activateAccount = ()=>{
       DE.toString(crypto.enc.Utf8)
   ]
   return async (dispatch)=>{
-    const res = await axios.post("http://localhost:3000/api/v1/auth/sign_in",{
+    const res = await axios.post(`${API_ROOT}/api/v1/auth/sign_in`,{
       email: DES,
       password:DPS,
     },{withCredentials : true})
@@ -257,7 +259,7 @@ export const settingsAccount=({name,email},imageUrl)=>{
     }
   }
   return async(dispatch)=>{
-    const res = await axios.put("http://localhost:3000/api/v1/auth",{
+    const res = await axios.put(`${API_ROOT}/api/v1/auth`,{
       name:name,
       email:email,
       avatar:imageUrl,
@@ -278,7 +280,7 @@ export const getUser=(id)=>{
     localStorage.removeItem("anotherUser")
   }
   return async (dispatch)=>{
-    const res = await axios.get(`http://localhost:3000/api/v1/users/${id}`)
+    const res = await axios.get(`${API_ROOT}/api/v1/users/${id}`)
     if (res.status==200) {
       const user   = res.data.data.user
       const learns = res.data.data.learns
@@ -313,7 +315,7 @@ export const setBarGraph = (date,aggregationType,id)=>{
   const month  = date.getMonth()+1
   const day    = date.getDate()
   return async (dispatch)=>{
-   const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/draft_search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
+   const res = await axios.get(`${API_ROOT}/api/v1/users/${id}/draft_search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
    const learns=res.data.data.learns.search_tasks
    const draftLearns=res.data.data.draftLearns.search_tasks
    dispatch(fetchGetDraftPeviousTasksAction(draftLearns))
@@ -326,7 +328,7 @@ export const setPieGraph = (date,aggregationType,id)=>{
   const month  = date.getMonth()+1
   const day    = date.getDate()
   return async (dispatch)=>{
-   const res = await axios.get(`http://localhost:3000/api/v1/users/${id}/learn_search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
+   const res = await axios.get(`${API_ROOT}/api/v1/users/${id}/learn_search?type=${aggregationType}&year=${year}&month=${month}&day=${day}`)
    const learnNextTasks=res.data.data.learns.search_tasks
    const draftNextTasks=res.data.data.draftLearns.search_tasks
    const learns={nextTasks:{
@@ -352,7 +354,7 @@ export const following = (otherUserId)=>{
        }
      }
   return async (dispatch)=>{
-    const res = await axios.post(`http://localhost:3000/api/v1/relationships`,{
+    const res = await axios.post(`${API_ROOT}/api/v1/relationships`,{
       follow_id:otherUserId,
     },option)
     if (res.status==200) {
@@ -377,7 +379,7 @@ export const unfollow = (otherUserId)=>{
        }
      }
      return async (dispatch)=>{
-        const res = await axios.delete(`http://localhost:3000/api/v1/relationships/${otherUserId}`,option)
+        const res = await axios.delete(`${API_ROOT}/api/v1/relationships/${otherUserId}`,option)
         const anotherUserStr:any=localStorage.getItem("anotherUser")
         const anotherUser=JSON.parse(anotherUserStr)
         const prevFollowers = anotherUser.followers
@@ -398,7 +400,7 @@ export const likeing = (otherUserId)=>{
        }
      }
      return async (dispatch)=>{
-       const res = await axios.post(`http://localhost:3000/api/v1/likes?type=DRAFTLEARN&id=3&date=2021/05/14&other_user=1`,option)
+       const res = await axios.post(`${API_ROOT}/api/v1/likes?type=DRAFTLEARN&id=3&date=2021/05/14&other_user=1`,option)
 
       // const anotherUserStr:any=localStorage.getItem("anotherUser")
       // const anotherUser=JSON.parse(anotherUserStr)
