@@ -29,6 +29,7 @@ type PaginationProps = {
   currentPage: number
   onChange: (event: any, page: number) => void
 }
+
 export default function BasicPagination({ maxPage, currentPage, onChange }: PaginationProps) {
   const classes = useStyles()
   return (

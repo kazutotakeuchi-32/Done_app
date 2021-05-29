@@ -6,6 +6,9 @@ import { push } from 'connected-react-router'
 import { Profile } from "../templates/Profile";
 import { ScrollableTabsButtonForce } from "../templates/ScrollableTabsButtonForce";
 import { LinearProgress } from "@material-ui/core";
+import { ActionCableProvider } from '@thrash-industries/react-actioncable-provider';
+import { API_WS_ROOT } from "../constants";
+
 
 const useStyles = makeStyles((theme) => ({
   '@global': {
@@ -34,7 +37,7 @@ export const Mypage = ()=>{
   const classes = useStyles()
   const dispatch = useDispatch()
   const userSelector  = state=>state.users
-  const {id,name,avatar}=useSelector(userSelector)
+  const {id,name,avatar,client,uid,token}=useSelector(userSelector)
   const[isLoading,setIsLoading]=useState(false)
   useEffect(()=>{
     setIsLoading(true)
@@ -57,7 +60,7 @@ export const Mypage = ()=>{
     }
   },[location.href])
 
-  const anotherUserString =localStorage.getItem("anotherUser")
+  const anotherUserString = localStorage.getItem("anotherUser")
   let anotherUser:any={}
   if (anotherUserString) {
      anotherUser = JSON.parse(anotherUserString)
@@ -65,7 +68,7 @@ export const Mypage = ()=>{
   const imageUrl = anotherUser.avatar == "" ||  anotherUser.avatar ? anotherUser.avatar : avatar
 
   return(
-      <>
+      <ActionCableProvider url={`${API_WS_ROOT}?token=${token}&client=${client}&uid=${uid}`}>
       {
         isLoading?
         <div style={{margin:"auto"}}>
@@ -89,7 +92,7 @@ export const Mypage = ()=>{
         </Grid>
         </Container>
       }
-      </>
+      </ActionCableProvider>
         )
 }
 

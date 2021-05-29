@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles'
 import '../assets/chat.css'
 import { Avatar, IconButton } from '@material-ui/core'
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
+import { Cable } from './Cable'
 
 function DateFormat(date, format: string): string {
   if (date == 'Invalid Date') {
@@ -42,6 +43,7 @@ type AtherUserMessageProps = {
     updated_at: Date
   }
 }
+
 export const AtherUserMessage = ({ user, message }: AtherUserMessageProps) => {
   return (
     <div className="line__left">
@@ -132,10 +134,11 @@ type Props = {
     }
   ]
   onClick: () => void
+  onReceived: (e: any) => void
   onSubmit: (e: any, room: { id: number; created_at: Date; updated_at: Date }) => void
 }
 
-export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId }: Props) => {
+export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId, onReceived }: Props) => {
   const classes = useStyles()
   const ref = React.createRef<HTMLDivElement>()
   const [isClick, setIsClick] = useState(false)
@@ -150,10 +153,12 @@ export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId }: Prop
   }, [messages])
 
   const scrollToBottomOfList = React.useCallback(() => {
-    ref!.current!.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-    })
+    if (ref) {
+      ref!.current!.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+    }
   }, [ref])
 
   return (
@@ -187,6 +192,13 @@ export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId }: Prop
           </div>
         ))}
       </div>
+      <Cable
+        room={room}
+        onReceived={(res) => {
+          onReceived(res)
+          messages.push(res)
+        }}
+      />
       <div
         className=""
         style={{
@@ -204,7 +216,7 @@ export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId }: Prop
           onSubmit={async (e) => {
             e.preventDefault()
             onSubmit(e, room)
-            scrollToBottomOfList()
+            // scrollToBottomOfList()
             setIsClick(true)
           }}
         >

@@ -32,6 +32,7 @@ type Props = {
   value: number
   index: number
 }
+
 export const DirectMessage = (props: Props) => {
   const { value, index } = props
   const classes = useStyles()
@@ -39,7 +40,7 @@ export const DirectMessage = (props: Props) => {
     <TabPanel index={index} value={value}>
       <div className="" style={{ padding: '40px 0' }}>
         <div className="" style={{ margin: 'auto' }}>
-          <DirectMessageItems/>
+          <DirectMessageItems />
         </div>
       </div>
     </TabPanel>

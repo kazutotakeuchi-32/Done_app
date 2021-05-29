@@ -16,7 +16,7 @@ render(
   <Provider store={store} >
     <ConnectedRouter history={story} >
       <CookiesProvider>
-        <App />
+          <App/>
       </CookiesProvider>
     </ConnectedRouter>
   </Provider>
