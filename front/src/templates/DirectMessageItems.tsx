@@ -29,13 +29,28 @@ export const DirectMessageItems = () => {
   const [user, setUser] = useState<any>({})
   const [room, setRoom] = useState<any>({})
   const [messages, setmessages] = useState<any>([])
+  const [reads,setReads] = useState<any>([])
 
   const setMessageCallback = useCallback(
     (res) => {
-      setmessages([...messages, res])
+      const{message}=res
+      setmessages([...messages, message])
     },
     [messages]
   )
+  const setReadCallback=useCallback(
+    (res)=>{
+      const{read}=res
+      if (res.name=="既読") {
+        const newReads = [...res.reads]
+        setReads([...newReads])
+      }else if(res.name=="入室"){
+        setReads([...res.reads])
+      }else{
+        setReads([...reads,read])
+      }
+    },[reads]
+    )
 
   return (
     <List className={classes.root}>
@@ -48,6 +63,7 @@ export const DirectMessageItems = () => {
             setUser(res2.data.data.user)
             setRoom(res2.data.data.room)
             setmessages(res2.data.data.messages)
+            setReads(res2.data.data.reads)
             setTabIndex(3)
           }}
         />
@@ -60,6 +76,7 @@ export const DirectMessageItems = () => {
             setUser(res.data.data.user)
             setRoom(res.data.data.room)
             setmessages(res.data.data.messages)
+            setReads(res.data.data.reads)
           }}
         />
       )}
@@ -70,6 +87,7 @@ export const DirectMessageItems = () => {
             user={user}
             room={room}
             messages={messages}
+            reads={reads}
             onClick={() => {
               setTabIndex(1)
             }}
@@ -80,10 +98,8 @@ export const DirectMessageItems = () => {
                 message: { message: message },
               })
             }}
-            onReceived={setMessageCallback}
-            // onReceived={(res) => {
-            //   setmessages([...messages, res])
-            // }}
+            setMessageCallback={setMessageCallback}
+            setReadCallback={setReadCallback}
           />
         </>
       )}

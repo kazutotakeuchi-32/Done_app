@@ -4,6 +4,8 @@ import '../assets/chat.css'
 import { Avatar, IconButton } from '@material-ui/core'
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 import { Cable } from './Cable'
+import axios from 'axios'
+import {API_ROOT} from '../constants'
 
 function DateFormat(date, format: string): string {
   if (date == 'Invalid Date') {
@@ -42,6 +44,14 @@ type AtherUserMessageProps = {
     created_at: Date
     updated_at: Date
   }
+  read: {
+    id: number
+    user_id: number
+    message_id: number
+    already_read: boolean
+    created_at: Date
+    updated_at: Date
+  }
 }
 
 export const AtherUserMessage = ({ user, message }: AtherUserMessageProps) => {
@@ -71,18 +81,34 @@ type MyMessageProps = {
     created_at: Date
     updated_at: Date
   }
+  read: {
+    id: number
+    user_id: number
+    message_id: number
+    already_read: boolean
+    created_at: Date
+    updated_at: Date
+  }
 }
 
-export const MyMessage = ({ message }: MyMessageProps) => {
+export const MyMessage = ({ message, read }: MyMessageProps) => {
   return (
     <>
       <div className="line__right">
         <div className="text">{message.message}</div>
-        <span className="date">
-          既読
-          <br />
-          {DateFormat(new Date(message.created_at), 'YYYY/MM/DD/ HH:MM')}
-        </span>
+
+        {read.already_read ? (
+          <span className="date">
+            既読
+            <br />
+            {DateFormat(new Date(read.updated_at), 'YYYY/MM/DD/ HH:MM')}
+          </span>
+        ) : (
+          <span className="date">
+            <br />
+            {DateFormat(new Date(message.created_at), 'YYYY/MM/DD/ HH:MM')}
+          </span>
+        )}
       </div>
       <div style={{ clear: 'both' }}></div>
     </>
@@ -133,16 +159,37 @@ type Props = {
       updated_at: Date
     }
   ]
+  reads: [
+    {
+      id: number
+      user_id: number
+      message_id: number
+      already_read: boolean
+      created_at: Date
+      updated_at: Date
+    }
+  ]
   onClick: () => void
-  onReceived: (e: any) => void
+  // onReceived: (e: any) => void
+  setMessageCallback: (e: any) => void
+  setReadCallback: (e: any) => void
   onSubmit: (e: any, room: { id: number; created_at: Date; updated_at: Date }) => void
 }
 
-export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId, onReceived }: Props) => {
+export const ChatRoom = ({
+  onClick,
+  user,
+  room,
+  onSubmit,
+  messages,
+  myId,
+  reads,
+  setMessageCallback,
+  setReadCallback,
+}: Props) => {
   const classes = useStyles()
   const ref = React.createRef<HTMLDivElement>()
   const [isClick, setIsClick] = useState(false)
-
   useEffect(() => {
     if (isClick) {
       scrollToBottomOfList()
@@ -183,10 +230,12 @@ export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId, onRece
       >
         {messages.map((message, i) => (
           <div className="" key={i}>
+            {console.log(reads.length, messages.length, i)}
+            {/* {console.log(message.user_id,myId,reads[i],i,messages.length,reads.length) */}
             {message.user_id != myId ? (
-              <AtherUserMessage user={user} message={message} />
+              <AtherUserMessage user={user} message={message} read={reads[i]} />
             ) : (
-              <MyMessage message={message} />
+              <MyMessage message={message} read={reads[i]} />
             )}
             <div ref={ref} id={'scroll'} />
           </div>
@@ -194,9 +243,40 @@ export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId, onRece
       </div>
       <Cable
         room={room}
-        onReceived={(res) => {
-          onReceived(res)
-          messages.push(res)
+        onReceived={async (res) => {
+          if (myId != res.message.user_id && res.name == '未読') {
+            const res2 = await axios.put(
+              `${API_ROOT}/api/v1/users/${res.message.user_id}/rooms/${res.message.room_id}/reads/${res.read.id}`,
+              {
+                room: {
+                  already_read: true,
+                },
+              }
+            )
+          }
+          if (myId == res.message.user_id && res.name == '既読') {
+            reads[reads.length - 1].already_read = true
+            res.reads = reads
+            setReadCallback(res)
+            return
+          }
+          if (myId != res.message.user_id && res.name == '既読') {
+            return
+          }
+          if (myId == res.message.user_id && res.name == '既読') {
+            reads[reads.length - 1].already_read = true
+            res.reads = reads
+            setReadCallback(res)
+            return
+          }
+          if (res.name == '入室') {
+            setReadCallback(res)
+            return
+          }
+          setReadCallback(res)
+          reads.push(res.read)
+          setMessageCallback(res)
+          messages.push(res.message)
         }}
       />
       <div
@@ -216,7 +296,7 @@ export const ChatRoom = ({ onClick, user, room, onSubmit, messages, myId, onRece
           onSubmit={async (e) => {
             e.preventDefault()
             onSubmit(e, room)
-            // scrollToBottomOfList()
+            scrollToBottomOfList()
             setIsClick(true)
           }}
         >
