@@ -9,6 +9,7 @@ import { Button } from '@material-ui/core'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { API_ROOT } from '../constants'
+import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -72,14 +73,17 @@ export const DirectMessageItems = () => {
         <ChatHistroy
           onClick={async (room) => {
             const res = await axios.get(`${API_ROOT}/api/v1/users/${id}/rooms/${room.room.room_id}`)
-            setTabIndex(3)
             setUser(res.data.data.user)
             setRoom(res.data.data.room)
             setmessages(res.data.data.messages)
             setReads(res.data.data.reads)
+            setTabIndex(3)
           }}
         />
       )}
+
+
+
       {tabIndex == 3 && (
         <>
           <ChatRoom

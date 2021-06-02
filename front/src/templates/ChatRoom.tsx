@@ -277,6 +277,7 @@ export const ChatRoom = ({
           reads.push(res.read)
           setMessageCallback(res)
           messages.push(res.message)
+
         }}
       />
       <div

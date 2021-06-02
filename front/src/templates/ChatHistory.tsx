@@ -10,6 +10,9 @@ import Typography from '@material-ui/core/Typography'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { API_ROOT } from '../constants'
+import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider'
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,6 +43,7 @@ export default function AlignItemsList({ onClick }: Props) {
     fetchChathistory()
   }, [])
 
+
   function DateFormat(date, format: string): string {
     if (date == 'Invalid Date') {
       return ''
@@ -66,6 +70,24 @@ export default function AlignItemsList({ onClick }: Props) {
 
   return (
     <List className={classes.root}>
+      {
+        rooms.length != [] &&
+        <ActionCableConsumer
+        // key={room.id}
+        channel={{ channel: 'RoomChannel' }}
+        onReceived={(res)=>{
+          const newRooms =rooms.map(room=>{
+            if (room.room.room_id==res.room.id) {
+              return {room:res.room,lastMessages:res.message,read:res.read,user:room.user}
+            }else{
+              return room
+            }
+          })
+          setRooms([...newRooms])
+        }}
+      />
+      }
+
       {rooms.length != [] &&
         rooms.map((room) => (
           <>
@@ -100,6 +122,7 @@ export default function AlignItemsList({ onClick }: Props) {
     </List>
   )
 }
+
 export const ChatHistroy = ({ onClick }: Props) => {
   return (
     <>
