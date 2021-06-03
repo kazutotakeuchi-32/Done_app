@@ -31,14 +31,11 @@ export const DirectMessageItems = () => {
   const [room, setRoom] = useState<any>({})
   const [messages, setmessages] = useState<any>([])
   const [reads,setReads] = useState<any>([])
-
   const setMessageCallback = useCallback(
     (res) => {
       const{message}=res
       setmessages([...messages, message])
-    },
-    [messages]
-  )
+    },[messages])
   const setReadCallback=useCallback(
     (res)=>{
       const{read}=res
@@ -48,11 +45,10 @@ export const DirectMessageItems = () => {
       }else if(res.name=="入室"){
         setReads([...res.reads])
       }else{
-        setReads([...reads,read])
+        setReads([...res.reads,read])
       }
     },[reads]
     )
-
   return (
     <List className={classes.root}>
       {tabIndex == 1 && (
@@ -71,7 +67,7 @@ export const DirectMessageItems = () => {
       )}
       {tabIndex == 2 && (
         <ChatHistroy
-          onClick={async (room) => {
+          onClick={ async (room) => {
             const res = await axios.get(`${API_ROOT}/api/v1/users/${id}/rooms/${room.room.room_id}`)
             setUser(res.data.data.user)
             setRoom(res.data.data.room)
@@ -81,8 +77,6 @@ export const DirectMessageItems = () => {
           }}
         />
       )}
-
-
 
       {tabIndex == 3 && (
         <>
@@ -107,7 +101,6 @@ export const DirectMessageItems = () => {
           />
         </>
       )}
-
       <footer
         style={{
           height: '30px',

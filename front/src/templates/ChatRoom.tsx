@@ -6,6 +6,7 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace'
 import { Cable } from './Cable'
 import axios from 'axios'
 import {API_ROOT} from '../constants'
+import { readJsonConfigFile } from 'typescript'
 
 function DateFormat(date, format: string): string {
   if (date == 'Invalid Date') {
@@ -192,10 +193,11 @@ export const ChatRoom = ({
   const [isClick, setIsClick] = useState(false)
   useEffect(() => {
     if (isClick) {
-      scrollToBottomOfList()
-      setIsClick(false)
+        scrollToBottomOfList()
+        setIsClick(false)
     } else {
-      ref.current?.scrollIntoView()
+        ref.current?.scrollIntoView()
+
     }
   }, [messages])
 
@@ -230,16 +232,16 @@ export const ChatRoom = ({
       >
         {messages.map((message, i) => (
           <div className="" key={i}>
-            {console.log(reads.length, messages.length, i)}
-            {/* {console.log(message.user_id,myId,reads[i],i,messages.length,reads.length) */}
+            {/* {console.log(reads.length, messages.length, i)}
+            {console.log(message.user_id,myId,reads[i],i,messages.length,reads.length) */}
             {message.user_id != myId ? (
               <AtherUserMessage user={user} message={message} read={reads[i]} />
             ) : (
               <MyMessage message={message} read={reads[i]} />
             )}
-            <div ref={ref} id={'scroll'} />
           </div>
         ))}
+        <div ref={ref} id={'scroll'} />
       </div>
       <Cable
         room={room}
@@ -263,16 +265,13 @@ export const ChatRoom = ({
           if (myId != res.message.user_id && res.name == '既読') {
             return
           }
-          if (myId == res.message.user_id && res.name == '既読') {
-            reads[reads.length - 1].already_read = true
-            res.reads = reads
-            setReadCallback(res)
-            return
-          }
+
           if (res.name == '入室') {
+            reads=res.reads
             setReadCallback(res)
             return
           }
+          res.reads=reads
           setReadCallback(res)
           reads.push(res.read)
           setMessageCallback(res)

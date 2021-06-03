@@ -11,8 +11,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { API_ROOT } from '../constants'
 import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider'
-
-
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     inline: {
       display: 'inline',
+    },
+    colorPrimary:{
+      background:"#8DE055;"
     },
   })
 )
@@ -35,13 +37,14 @@ export default function AlignItemsList({ onClick }: Props) {
   const userSelector = (state) => state.users
   const { id } = useSelector(userSelector)
   const [rooms, setRooms] = useState<any>([])
+
   useEffect(() => {
     const fetchChathistory = async () => {
       const res = await axios.get(`${API_ROOT}/api/v1/users/${id}/rooms`)
       setRooms(res.data.data.rooms)
     }
     fetchChathistory()
-  }, [])
+  }, [rooms])
 
 
   function DateFormat(date, format: string): string {
@@ -52,7 +55,6 @@ export default function AlignItemsList({ onClick }: Props) {
     const year = nowDate.getFullYear()
     const month = nowDate.getMonth() + 1
     const d = nowDate.getDate()
-
     if (year == date.getFullYear() && month == date.getMonth() + 1 && d == date.getDate()) {
       format = format.replace(/YYYY\//, '')
       format = format.replace(/MM\//, '')
@@ -62,7 +64,6 @@ export default function AlignItemsList({ onClick }: Props) {
       format = format.replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0'))
       format = format.replace(/DD/, date.getDate().toString().padStart(2, '0'))
     }
-
     format = format.replace(/HH/, date.getHours().toString().padStart(2, '0'))
     format = format.replace(/MM/, date.getMinutes().toString().padStart(2, '0'))
     return format
@@ -70,23 +71,14 @@ export default function AlignItemsList({ onClick }: Props) {
 
   return (
     <List className={classes.root}>
-      {
-        rooms.length != [] &&
+      {rooms.length != [] && (
         <ActionCableConsumer
-        // key={room.id}
-        channel={{ channel: 'RoomChannel' }}
-        onReceived={(res)=>{
-          const newRooms =rooms.map(room=>{
-            if (room.room.room_id==res.room.id) {
-              return {room:res.room,lastMessages:res.message,read:res.read,user:room.user}
-            }else{
-              return room
-            }
-          })
-          setRooms([...newRooms])
-        }}
-      />
-      }
+          channel={{ channel: 'RoomChannel' }}
+          onReceived={(res) => {
+            setRooms([])
+          }}
+        />
+      )}
 
       {rooms.length != [] &&
         rooms.map((room) => (
@@ -102,7 +94,17 @@ export default function AlignItemsList({ onClick }: Props) {
               </ListItemAvatar>
               <ListItemText
                 primary={
-                  room.user.name + '  ' + DateFormat(new Date(room.lastMessages.created_at), 'YYYY/MM/DD/ HH:MM')
+                  <div style={{display:"flex",justifyContent:"space-between"}}>
+                   { room.user.name + '  ' + DateFormat(new Date(room.lastMessages.created_at), 'YYYY/MM/DD/ HH:MM')}
+                   <Badge style={{marginTop:"10px"}}
+                   classes={{
+                     colorPrimary:classes.colorPrimary
+                   }}
+                   color={"primary"}
+                   badgeContent={room.unReadCount.length}
+                    invisible={room.unReadCount.length==0? true:false}
+                    />
+                  </div>
                 }
                 secondary={
                   <React.Fragment>
