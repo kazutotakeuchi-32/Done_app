@@ -12,6 +12,7 @@ type Props = {
   data:string
   otherUser:any
 }
+
 export const Like = ({item,data,otherUser}: Props) => {
   const userSelector = (state) => state.users
   const { id, uid, client, token } = useSelector(userSelector)

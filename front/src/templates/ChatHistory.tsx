@@ -11,7 +11,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 import { API_ROOT } from '../constants'
 import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider'
-import Badge from '@material-ui/core/Badge';
+import Badge from '@material-ui/core/Badge'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
     inline: {
       display: 'inline',
     },
-    colorPrimary:{
-      background:"#8DE055;"
+    colorPrimary: {
+      background: '#8DE055;',
     },
   })
 )
@@ -45,7 +45,6 @@ export default function AlignItemsList({ onClick }: Props) {
     }
     fetchChathistory()
   }, [rooms])
-
 
   function DateFormat(date, format: string): string {
     if (date == 'Invalid Date') {
@@ -94,15 +93,16 @@ export default function AlignItemsList({ onClick }: Props) {
               </ListItemAvatar>
               <ListItemText
                 primary={
-                  <div style={{display:"flex",justifyContent:"space-between"}}>
-                   { room.user.name + '  ' + DateFormat(new Date(room.lastMessages.created_at), 'YYYY/MM/DD/ HH:MM')}
-                   <Badge style={{marginTop:"10px"}}
-                   classes={{
-                     colorPrimary:classes.colorPrimary
-                   }}
-                   color={"primary"}
-                   badgeContent={room.unReadCount.length}
-                    invisible={room.unReadCount.length==0? true:false}
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {room.user.name + '  ' + DateFormat(new Date(room.lastMessages.created_at), 'YYYY/MM/DD/ HH:MM')}
+                    <Badge
+                      style={{ marginTop: '10px' }}
+                      classes={{
+                        colorPrimary: classes.colorPrimary,
+                      }}
+                      color={'primary'}
+                      badgeContent={room.unReadCount.length}
+                      invisible={room.unReadCount.length == 0 ? true : false}
                     />
                   </div>
                 }
