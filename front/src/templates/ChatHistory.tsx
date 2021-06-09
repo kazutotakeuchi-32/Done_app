@@ -44,7 +44,7 @@ export default function AlignItemsList({ onClick }: Props) {
       setRooms(res.data.data.rooms)
     }
     fetchChathistory()
-  }, [rooms])
+  }, [])
 
   function DateFormat(date, format: string): string {
     if (date == 'Invalid Date') {
@@ -73,8 +73,9 @@ export default function AlignItemsList({ onClick }: Props) {
       {rooms.length != [] && (
         <ActionCableConsumer
           channel={{ channel: 'RoomChannel' }}
-          onReceived={(res) => {
-            setRooms([])
+          onReceived={async(res) => {
+            const res2 = await axios.get(`${API_ROOT}/api/v1/users/${id}/rooms`)
+            setRooms(res2.data.data.rooms)
           }}
         />
       )}
